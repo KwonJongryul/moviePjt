@@ -9,5 +9,6 @@ from .serializers import MoviesSerializer
 @api_view(['GET'])
 def movies(request):
     movieList = get_list_or_404(Movie)
-    serializer = MoviesSerializer(movieList, many=True)
+    serializer = MoviesSerializer(movieList[:100], many=True)
+    print(serializer.data)
     return Response(serializer.data)

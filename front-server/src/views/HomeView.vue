@@ -1,17 +1,26 @@
 <template>
-  <div>
-    <h1>홈화면</h1>
-    <p v-for="movie in movies" :key="movie">{{ movie.title }}</p>
+  <div class="d-flex justify-content-center">
+    <div style="width: 600px;">
+      <h1>홈화면</h1>
+      <!-- <p v-for="movie in movies" :key="movie.id">{{ movie.title }}</p> -->
+      <GenreRec :genremovies="genremovies"/>
+    </div>
   </div>
 </template>
 
 <script>
+import GenreRec from "@/components/GenreRec"
+
 export default {
   name: 'HomeView',
   data(){
     return {
-      // movies : []
+      // movies : [],
+      // getGenremovie : []
     }
+  },
+  components :{
+    GenreRec
   },
   computed : {
     movies(){
@@ -19,8 +28,11 @@ export default {
       // for(let i = 0; i < 21; i++){
       //   ms.push(this.$store.state.movies[i])
       // }
-      // console.log(this.$store.state.movies, "??")
       return ms
+    },
+    genremovies(){
+      console.log(this.$store.state.genre_movies, '????')
+      return this.$store.state.genre_movies
     }
   },
   created () {
@@ -29,7 +41,8 @@ export default {
   methods: {
     getMovies(){
       this.$store.dispatch('getMovies')
-    }
+      this.$store.dispatch('getGenremovie')
+    },
   }
 }
 </script>
