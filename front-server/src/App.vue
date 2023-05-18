@@ -2,10 +2,10 @@
   <div id="app">
     <nav>
       <img src="./assets/N.png" width="50px">
-      <router-link :to="{ name: 'HomeView' }">Home</router-link> 
-      <router-link :to="{ name: 'SignUpView' }" v-show="!islogin">회원가입</router-link> 
+      <router-link :to="{ name: 'HomeView' }" replace>Home</router-link> | 
+      <router-link :to="{ name: 'SignUpView' }" v-show="!islogin">회원가입</router-link> | 
       <router-link :to="{ name: 'LoginView' }" v-show="!islogin">로그인</router-link>
-      <a @click="logout" v-show="islogin">로그아웃</a>
+      <a @click.prevent="logout"  replace>로그아웃</a>
     </nav>
     <div class="d-flex justify-content-center">
       <router-view/>
@@ -39,6 +39,7 @@ export default{
       // .catch((err) => {
       //   console.log(err)
       // })
+      this.$router.push({name:'HomeView'})
     }
   },
 }

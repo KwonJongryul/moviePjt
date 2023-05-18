@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import router from "@/router"
+// import router from "@/router"
 import createPersistedState from 'vuex-persistedstate'
 // import _ from 'lodash'
 Vue.use(Vuex)
@@ -28,7 +28,7 @@ export default new Vuex.Store({
     },
     SAVE_TOKEN(state, key){
       state.token = key
-      router.push({name:'HomeView'})
+      // router.push({name:'HomeView'})
     }
   },
   actions: {
@@ -92,14 +92,14 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    logout(){
+    logout({commit}){
       axios({
         method: 'post',
         url : 'http://127.0.0.1:8000/accounts/logout/',
       })
       .then(()=>{
         localStorage.removeItem('authToken')
-        router.push({name:'HomeView'})
+        commit('SAVE_TOKEN', null)
       })
       .catch((err) => {
         console.log(err)
