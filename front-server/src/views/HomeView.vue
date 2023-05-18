@@ -1,11 +1,9 @@
 <template>
-  <div class="d-flex justify-content-center">
     <div style="width: 600px;">
       <h1>홈화면</h1>
       <!-- <p v-for="movie in movies" :key="movie.id">{{ movie.title }}</p> -->
       <GenreRec :genremovies="genremovies"/>
     </div>
-  </div>
 </template>
 
 <script>

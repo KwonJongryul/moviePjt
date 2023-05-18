@@ -14,7 +14,6 @@ export default new Vuex.Store({
   mutations: {
     GET_MOVIES(state, movies){
       state.movies = movies
-      console.log(movies, 'sksk') 
     },
     GET_GENREMOVIE(state, list){
       state.genre_movies = list
@@ -32,7 +31,6 @@ export default new Vuex.Store({
         for(let i = 0; i < 3; i++){
           genre_movies.push(movies[i])
         }
-        console.log(genre_movies, '왜안나옴????????????')
         commit('GET_MOVIES', res.data)
         commit('GET_GENREMOVIE', genre_movies)
       })
@@ -40,8 +38,20 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    getGenremovie(){
-      // console.log(movies, 'dkdkdkdkdk') 
+    signup({commit}, payload){
+      const username = payload.username
+      const password1 = payload.password1
+      const password2 = payload.password2
+      axios({
+        method : 'post',
+        url : 'http://127.0.0.1:8000/accounts/signup/',
+        data : {
+          username, password1, password2
+        },
+      })
+      .then((res) => {
+        
+      })
     }
   },
   modules: {
