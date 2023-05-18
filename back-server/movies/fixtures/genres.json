@@ -150,5 +150,13 @@
 			"id": 37,
 			"name": "서부"
 		}
+	},
+	{
+		"model": "movies.genre",
+		"pk": 20,
+		"fields": {
+			"id": 9999,
+			"name": "없는 영화"
+		}
 	}
 ]
