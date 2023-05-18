@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-// import router from "@/router"
+import router from "../router"
 import createPersistedState from 'vuex-persistedstate'
 // import _ from 'lodash'
 Vue.use(Vuex)
@@ -28,25 +28,31 @@ export default new Vuex.Store({
     },
     SAVE_TOKEN(state, key){
       state.token = key
-      // router.push({name:'HomeView'})
-    }
+      router.replace({name:'HomeView'})
+    },
+    LOGOUT_TOKEN(state){
+      state.token = null
+      router.replace({name:'Login'})
+    },
   },
   actions: {
     getMovies(context){
       let URL = null
-      if (context.getters){
+      // 로그인 됐을때
+      if (context.getters.islogin){
         URL = `http://127.0.0.1:8000/api/v1/genremovies/`
-      }else{
-        URL = `http://127.0.0.1:8000/api/v1/latestmovies/`
+        console.log('gg')
+      }else{ // 안됐을때
+        URL = 'https://api.themoviedb.org/3/movie/now_playing?api_key=3c1824cd40b0044d7944ab5a55d4cb16&language=ko-KR&page=1'
       }
       axios({
         methods : 'get',
         url: URL
       })
       .then((res) => {
-        const movies = res.data
+        const movies = res.data.results
         const genre_movies = []
-        for(let i = 0; i < 3; i++){
+        for(let i = 0; i < 11; i++){
           genre_movies.push(movies[i])
         }
         context.commit('GET_MOVIES', res.data)
@@ -97,9 +103,11 @@ export default new Vuex.Store({
         method: 'post',
         url : 'http://127.0.0.1:8000/accounts/logout/',
       })
+      // 로그아웃만 하면 안되고 로컬스토리지에서 삭제해주고
+      // save token으로 null값 저장해주기
       .then(()=>{
         localStorage.removeItem('authToken')
-        commit('SAVE_TOKEN', null)
+        commit('LOGOUT_TOKEN')
       })
       .catch((err) => {
         console.log(err)

@@ -18,11 +18,13 @@ export default {
     GenreRec
   },
   computed : {
+    // 아직 임의로 만들어 놓음!!!!로직 없음
     movies(){
       const ms = this.$store.state.movies
       // for(let i = 0; i < 21; i++){
       //   ms.push(this.$store.state.movies[i])
       // }
+
       return ms
     },
     genremovies(){
