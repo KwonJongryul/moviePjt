@@ -1,7 +1,6 @@
 <template>
     <div style="width: 600px;">
       <h1>홈화면</h1>
-      <!-- <p v-for="movie in movies" :key="movie.id">{{ movie.title }}</p> -->
       <GenreRec :genremovies="genremovies"/>
     </div>
 </template>
@@ -13,8 +12,6 @@ export default {
   name: 'HomeView',
   data(){
     return {
-      // movies : [],
-      // getGenremovie : []
     }
   },
   components :{
@@ -29,7 +26,6 @@ export default {
       return ms
     },
     genremovies(){
-      console.log(this.$store.state.genre_movies, '????')
       return this.$store.state.genre_movies
     }
   },
@@ -39,7 +35,6 @@ export default {
   methods: {
     getMovies(){
       this.$store.dispatch('getMovies')
-      this.$store.dispatch('getGenremovie')
     },
   }
 }

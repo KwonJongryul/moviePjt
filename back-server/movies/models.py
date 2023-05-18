@@ -28,4 +28,14 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
-# class Cast(models.Model):
+class Actor(models.Model):
+    adult = models.BooleanField()
+    gender = models.IntegerField()
+    known_for = models.TextField()
+    department = models.CharField(max_length=20)
+    name = models.CharField(max_length=30)
+    popularity = models.FloatField()
+    profile_path = models.TextField(null=True)
+    
+    def __str__(self):
+        return self.name

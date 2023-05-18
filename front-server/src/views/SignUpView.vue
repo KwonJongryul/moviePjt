@@ -5,9 +5,9 @@
       <label for="username">ID : </label>
       <input type="text" id="username" v-model="username"><br>
       <label for="password1">password1 : </label>
-      <input type="text" id="password1" v-model="password1"><br>
+      <input type="password" id="password1" v-model="password1"><br>
       <label for="password2">password2 : </label>
-      <input type="text" id="password2" v-model="password2"><br>
+      <input type="password" id="password2" v-model="password2"><br>
       <input type="submit" value="가입하기">
     </form>
   </div>

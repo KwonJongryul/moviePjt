@@ -2,5 +2,6 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
-    path('movies/', views.movies),
+    path('latestmovies/', views.latest_movies),
+    path('genremovies/', views.genre_movies),
 ]
