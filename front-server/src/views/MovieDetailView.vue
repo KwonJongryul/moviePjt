@@ -16,10 +16,10 @@ export default {
   name : 'MovieDetailView',
   data(){
     return {
-      movie: null
+      movie: []
     }
   },
-  created(){
+  mounted(){
     this.getMovieDetail()
   },
   methods : {
@@ -27,6 +27,21 @@ export default {
       axios({
         method: 'get',
         url: `http://127.0.0.1:8000/api/v1/movies/${this.$route.params.id}`,
+      })
+      .then((res)=>{
+        this.movie = res.data
+      })
+      .catch(()=>{
+        this.getMovieDetailAPI()
+      })
+    },
+    getMovieDetailAPI(){
+      axios({
+        method: 'get',
+        url: `https://api.themoviedb.org/3/movie/${this.$route.params.id}?language=ko-KR`,
+        headers: {
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYzE4MjRjZDQwYjAwNDRkNzk0NGFiNWE1NWQ0Y2IxNiIsInN1YiI6IjYzZDMxNzgwY2I3MWI4MDBhMTBkOTRiYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.8hiV71qR0GYKuQVn3fOLORjfCqbz4DglPhvAe3SlhQY'
+        },
       })
       .then((res)=>{
         this.movie = res.data
