@@ -3,6 +3,7 @@
     <nav>
       <img src="./assets/N.png" width="50px">
       <router-link :to="{ name: 'HomeView' }" class="mx-1">Home</router-link>
+      <router-link :to="{ name: 'SearchView' }">Search</router-link>
       <router-link :to="{ name: 'SignUpView' }" v-show="!islogin" class="mx-1">회원가입</router-link>
       <router-link :to="{ name: 'LoginView' }" v-show="!islogin" class="mx-1">로그인</router-link>
       <router-link :to="{ name: 'HomeView' }" class="mx-1"><span @click.prevent="logout" v-if="islogin">로그아웃</span></router-link>

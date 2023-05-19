@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '@/views/HomeView'
+import SearchView from '@/views/SearchView'
 import SignUpView from '@/views/SignUpView'
 import LoginView from '@/views/LoginView'
 
@@ -11,6 +12,11 @@ const routes = [
     path: '/',
     name: 'HomeView',
     component: HomeView
+  },
+  {
+    path: '/searchlist',
+    name: 'SearchView',
+    component: SearchView
   },
   {
     path: '/signup',
