@@ -5,7 +5,7 @@
       <router-link :to="{ name: 'HomeView' }" class="mx-1">Home</router-link>
       <router-link :to="{ name: 'SignUpView' }" v-show="!islogin" class="mx-1">회원가입</router-link>
       <router-link :to="{ name: 'LoginView' }" v-show="!islogin" class="mx-1">로그인</router-link>
-      <a @click.prevent="logout" v-if="islogin">로그아웃</a>
+      <router-link :to="{ name: 'HomeView' }" class="mx-1"><span @click.prevent="logout" v-if="islogin">로그아웃</span></router-link>
     </nav>
     <div class="d-flex justify-content-center">
       <router-view/>
@@ -27,19 +27,6 @@ export default{
   methods: {
     logout(){
       this.$store.dispatch('logout')
-      // axios({
-      //   method: 'post',
-      //   url : 'http://127.0.0.1:8000/accounts/logout/',
-      // })
-      // .then(()=>{
-      //   localStorage.removeItem('authToken')
-      //   console.log(this.$store.getters.islogin)
-      //   this.$router.push({name:'HomeView'})
-      // })
-      // .catch((err) => {
-      //   console.log(err)
-      // })
-      // this.$router.push({name:'HomeView'})
     }
   },
 }
