@@ -1,6 +1,7 @@
 <template>
   <div style="width: 600px;">
     <h1>회원님들이 작성한 리뷰</h1>
+    <button @click="goCreate">작성하러 가기</button>
     <ul>
       <ReviewItem 
       v-for="review in reviews" 
@@ -23,6 +24,9 @@ export default {
   computed:{
     reviews(){
       return this.$store.state.reviews
+    },
+    islogin(){
+      return this.$store.getters.islogin
     }
   },
   components : {
@@ -34,6 +38,13 @@ export default {
   methods: {
     getRivews(){
       this.$store.dispatch("getRivews")
+    },
+    goCreate(){
+      if (this.islogin){
+        this.$router.push({name:'ReviewCreate'})
+      }else{
+        this.$router.push({name : 'LoginView'})
+      }
     }
   },
 }
