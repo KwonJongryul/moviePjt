@@ -1,10 +1,10 @@
 from django.db import models
 # Create your models here.
-from django.contrib.postgres.fields import ArrayField
+from django.conf import settings
 
 class Genre(models.Model):
     name = models.CharField(max_length=30)
-    
+    genre_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_genres')
     def __str__(self) -> str:
         return self.name
     
@@ -13,7 +13,6 @@ class Movie(models.Model):
     adult = models.BooleanField(null=True)
     backdrop_path = models.TextField(null=True)
     genre = models.ManyToManyField(Genre, related_name='genre_movie')
-    # id = models.IntegerField(primary_key=True)
     original_language = models.CharField(max_length=10, null=True)
     original_title = models.TextField(null=True)
     overview = models.TextField(null=True)
@@ -24,7 +23,7 @@ class Movie(models.Model):
     video = models.BooleanField(null=True)
     vote_average = models.FloatField(null=True)
     vote_count = models.IntegerField(null=True)
-    
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_moves')
     def __str__(self):
         return self.title
 
@@ -39,3 +38,19 @@ class Actor(models.Model):
     
     def __str__(self):
         return self.name
+
+class Comment(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    context = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_comment')
+
+class Recomment(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    context = models.TextField()
+    
+    created_at = models.DateTimeField(auto_now_add=True)

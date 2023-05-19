@@ -28,11 +28,10 @@ export default new Vuex.Store({
     },
     SAVE_TOKEN(state, key){
       state.token = key
-      router.replace({name:'HomeView'})
+      router.push({name:'HomeView'})
     },
     LOGOUT_TOKEN(state){
       state.token = null
-      // router.replace({name:'LoginView'})
     },
   },
   actions: {
