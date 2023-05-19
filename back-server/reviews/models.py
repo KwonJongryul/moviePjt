@@ -8,7 +8,7 @@ class Review(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_reviews')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_reviews')
     title = models.CharField(max_length=50)
-    vote = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
+    vote = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
     context = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

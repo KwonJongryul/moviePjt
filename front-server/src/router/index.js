@@ -5,7 +5,7 @@ import SearchView from '@/views/SearchView'
 import MovieDetailView from '@/views/MovieDetailView'
 import SignUpView from '@/views/SignUpView'
 import LoginView from '@/views/LoginView'
-
+import ReviewView from '@/views/ReviewView';
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +33,11 @@ const routes = [
     path: '/login',
     name: 'LoginView',
     component: LoginView
+  },
+  {
+    path: '/review',
+    name: 'review',
+    component: ReviewView
   },
 
 ]

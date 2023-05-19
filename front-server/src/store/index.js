@@ -12,7 +12,8 @@ export default new Vuex.Store({
   ],
   state: {
     movies : [],
-    token : null
+    token : null,
+    reviews : null
   },
   getters: {
     islogin(state){
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     GET_GENREMOVIE(state, list){
       state.genre_movies = list
     },
+    GET_REVIEWS(state, reviews){
+      state.reviews = reviews
+    },
     SAVE_TOKEN(state, key){
       state.token = key
       router.push({name:'HomeView'})
@@ -35,6 +39,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    // 영화 목록 얻어오기
     getMovies(context){
       let URL = null
       // 로그인 됐을때
@@ -111,7 +116,24 @@ export default new Vuex.Store({
       .catch((err) => {
         console.log(err)
       })
+    },
+    getRivews(context){
+      const URL = 'http://127.0.0.1:8000/api/v1/reviews/'
+      axios({
+        method : 'get',
+        url : URL,
+        headers : {
+          Authorization: `Token ${ context.state.token }`
+        }
+      })
+        .then((res) => {
+          context.commit('GET_REVIEWS', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+    
   },
   modules: {
   }
