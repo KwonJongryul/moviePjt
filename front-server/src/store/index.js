@@ -32,7 +32,6 @@ export default new Vuex.Store({
     },
     LOGOUT_TOKEN(state){
       state.token = null
-      // router.replace({name:'LoginView'})
     },
   },
   actions: {

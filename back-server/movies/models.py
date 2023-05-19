@@ -38,3 +38,19 @@ class Actor(models.Model):
     
     def __str__(self):
         return self.name
+
+class Comment(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    context = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_comment')
+
+class Recomment(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    context = models.TextField()
+    
+    created_at = models.DateTimeField(auto_now_add=True)
