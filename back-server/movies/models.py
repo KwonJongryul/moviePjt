@@ -5,8 +5,7 @@ from django.conf import settings
 class Genre(models.Model):
     name = models.CharField(max_length=30)
     genre_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_genres')
-    def __str__(self) -> str:
-        return self.name
+
     
 # Create your models here.
 class Movie(models.Model):
@@ -24,8 +23,12 @@ class Movie(models.Model):
     vote_average = models.FloatField(null=True)
     vote_count = models.IntegerField(null=True)
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_moves')
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.title
+    def __str__(self) -> str:
+        if self.title:
+            return self.title
+        return '불러올 수 없는 영화'
 
 class Actor(models.Model):
     adult = models.BooleanField()
