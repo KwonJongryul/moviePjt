@@ -4,18 +4,15 @@
       <input type="text" v-model="search_movie">
       <button @click="getSearchMovie">🔍</button>
     </div>
-    <!-- <div v-if="search_results">
-      <div v-for="movie in search_results" :key="movie.id">
-        <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="Movie Poster">
-        <p>{{ movie.title }}</p>
-      </div>
-    </div> -->
-
 
     <div v-if="search_results" class="row row-cols-1 row-cols-md-3 g-4">
       <div v-for="movie in search_results" :key="movie.id" class="col">
+        <router-link :to="{ name: 'MovieDetailView', params: { id: movie.id}}">
+        <div>
         <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" class="card-img-top" alt="Movie Poster">
         <h5 class="card-title">{{ movie.title }}</h5>
+        </div>
+        </router-link>
       </div>
     </div>
   </div>

@@ -25,3 +25,10 @@ def genre_movies(request):
     response = Response(serializer.data)
     response.accepted_renderer = JSONRenderer()
     return response
+
+# 검색한 영화를 보여줌
+@api_view(['GET'])
+def movie_detail(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    serializer = MoviesSerializer(movie)
+    return Response(serializer.data)
