@@ -1,6 +1,6 @@
 <template>
     <div style="width: 600px;">
-      <h1>홈화면</h1>
+      <h1>최근 작품</h1>
       <GenreRec :genremovies="genremovies"/>
     </div>
 </template>
