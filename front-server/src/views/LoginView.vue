@@ -12,6 +12,9 @@
         <input type="password" id="password" v-model="password" class="input" placeholder="패스워드를 입력해주세요"><br>
         <input type="submit" value="로그인" class="submit-btn">
       </form>
+      <div>
+        <router-link :to="{ name: 'SignUpView' }">아직 회원이 아니신가요?</router-link>
+      </div>
       </div>
     </div>
   </div>
@@ -49,7 +52,7 @@ export default {
     /* background-repeat: no-repeat; */
     background-position: center;
     width : 2000px;
-    height : 800px;
+    height : 30px;
   }
 
   .back::after {
@@ -80,7 +83,7 @@ export default {
     opacity: 80%;
     color : black;
     width : 400px;
-    height : 400px;
+    /* height : 400px; */
     text-align: center;
     padding: 50px;
   }
