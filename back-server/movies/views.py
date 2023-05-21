@@ -32,3 +32,10 @@ def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     serializer = MoviesSerializer(movie)
     return Response(serializer.data)
+
+# Review create에서 영화 셀렉트 옵션위한 로직
+@api_view(['GET'])
+def movies_option(request, keyword):
+    movies = Movie.objects.filter(title__contains=keyword)[:10]
+    serializer = MoviesSerializer(movies, many=True)
+    return Response(serializer.data)

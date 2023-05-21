@@ -6,6 +6,7 @@
             <img src="./assets/N.png" width="40px">
           </router-link>
           <router-link :to="{ name: 'HomeView' }" class="nav-link navfont" :class="{ 'active': $route.name === 'HomeView'}">Home</router-link>
+          <router-link :to="{ name: 'review' }" class="nav-link navfont" :class="{ 'active': $route.name === 'review'}">review</router-link>
           <router-link :to="{ name: 'SearchView' }" class="nav-link navfont" :class="{ 'active': $route.name === 'SearchView'}">Search</router-link>
           <router-link :to="{ name: 'SignUpView' }" v-show="!islogin" class="nav-link navfont" :class="{ 'active': $route.name === 'SignUpView'}">SignUp</router-link>
           <router-link :to="{ name: 'LoginView' }" v-show="!islogin" class="nav-link navfont" :class="{ 'active': $route.name === 'LoginView'}">LogIn</router-link>
