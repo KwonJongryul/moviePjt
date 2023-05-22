@@ -6,6 +6,8 @@ from rest_framework import status
 from django.shortcuts import get_list_or_404, get_object_or_404
 from .models import Movie, Genre
 from .serializers import MoviesSerializer
+from datetime import datetime
+from random import sample
 
 # 로그인 안했을땐 최신영화 보여주기 위한 뷰(홈 큰공간)
 @api_view(['GET'])
@@ -37,5 +39,15 @@ def movie_detail(request, movie_id):
 @api_view(['GET'])
 def movies_option(request, keyword):
     movies = Movie.objects.filter(title__contains=keyword)[:10]
+    serializer = MoviesSerializer(movies, many=True)
+    return Response(serializer.data)
+
+# 시대별 영화를 보여줌
+@api_view(['GET'])
+def movies_era(request):
+    start_date = datetime(2000, 1, 1)
+    end_date = datetime.now()
+    movies = Movie.objects.filter(release_date__range=(start_date, end_date), vote_average__gt=8)
+    movies = sample(list(movies), 10)
     serializer = MoviesSerializer(movies, many=True)
     return Response(serializer.data)
