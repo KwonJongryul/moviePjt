@@ -44,9 +44,25 @@ def movies_option(request, keyword):
 
 # 시대별 영화를 보여줌
 @api_view(['GET'])
-def movies_era(request):
-    start_date = datetime(2000, 1, 1)
-    end_date = datetime.now()
+def movies_era(request, era):
+    if era == '2020':
+        start_date = datetime(2020, 1, 1)
+        end_date = datetime.now()
+    elif era == '2010':
+        start_date = datetime(2010, 1, 1)
+        end_date = datetime(2019, 12, 31)
+    elif era == '2000':
+        start_date = datetime(2000, 1, 1)
+        end_date = datetime(2009, 12, 31)
+    elif era == '1990':
+        start_date = datetime(1990, 1, 1)
+        end_date = datetime(1999, 12, 31)
+    elif era == '1980':
+        start_date = datetime(1980, 1, 1)
+        end_date = datetime(1989, 12, 31)
+    else:
+        start_date = datetime(1900, 1, 1)
+        end_date = datetime(1979, 12, 31)
     movies = Movie.objects.filter(release_date__range=(start_date, end_date), vote_average__gt=8)
     movies = sample(list(movies), 10)
     serializer = MoviesSerializer(movies, many=True)
