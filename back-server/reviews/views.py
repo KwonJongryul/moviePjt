@@ -22,9 +22,14 @@ def review_list(request):
     
     elif request.method == 'POST':
         serializer = ReviewSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+        print(serializer)
+        if serializer.is_valid():
+            print('??')
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print('???')
+            print(serializer.errors)
 
 # ----------------게시글 디테일 불러오기, 식제, 수정------------------------------
 @api_view(['GET', 'DELETE', 'PUT'])

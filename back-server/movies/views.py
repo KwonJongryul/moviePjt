@@ -51,3 +51,11 @@ def movies_era(request):
     movies = sample(list(movies), 10)
     serializer = MoviesSerializer(movies, many=True)
     return Response(serializer.data)
+
+# 전체 영화 리스트
+@api_view(['GET'])
+def movies_all(request):
+    movies = get_list_or_404(Movie)
+    serializer = MoviesSerializer(movies, many=True)
+    return Response(serializer.data)
+    

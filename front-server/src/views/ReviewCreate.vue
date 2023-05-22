@@ -6,13 +6,11 @@
         <input type="text" v-model.trim="title" id="title">
       </p>
       <p>
-        <label for="movie"><strong>영화 </strong></label>
-        <input type="text" list="movies" id="movie" v-model="keyWord" @input="onInput" placeholder="영화를 입력해 주세요!" @change="selectMovie">
-        <datalist id ="movies">
-          <option v-for="movie in movies" :key="movie.id" :data-icon="'https://image.tmdb.org/t/p/w500' + movie.poster_path" :data-movieId="movie.id">
-            <a @click="selectMovie">{{ movie.title }}</a>
-          </option>
-        </datalist>
+        <label for="movies"><strong>영화 </strong></label>
+        <select id="movieSelect" style="width: 250px;">
+          <option value="">영화를 선택해 주세요!</option>
+          <option v-for="movie in movies" :key="movie.id" :value="movie.id">{{ movie.title }}</option>
+        </select>
       </p>
       <p>
         <label for="date"><strong>감상날짜</strong></label>
@@ -42,9 +40,13 @@
   </div>
 </template>
 
+<script src="https://code.jquery.com/jquery-1.12.4.js">
+
+</script>
 <script>
 import axios from 'axios'
-// import SelectItem from '../components/SelectItem.vue'
+
+
 const URL = 'http://127.0.0.1:8000'
 export default {
   name : 'ReviewCreate',
@@ -65,6 +67,30 @@ export default {
       movies : null
     }
   },
+  mounted() {
+  $(this.$el)
+    .find("#movieSelect")
+    .select2();
+    $(document).ready(function() {
+      $('#movieSelect').select2({
+        templateResult: function(movie) {
+          if (!movie.id) {
+            return movie.text;
+          }
+          var $movie = $('<span style="color: black;">' + movie.text + '</span>');
+          return $movie;
+        },
+        templateSelection: function(movie) {
+          return movie.text;
+        }
+      });
+    });
+    // $('#movieSelect').on('change',function(event){ console.log(event.target.value) })
+    $('#movieSelect').on('change', this.updateMovie)
+  },
+  created() {
+    this.moviesAll()
+  },
   methods : {
     create(){
       const title = this.title
@@ -74,6 +100,7 @@ export default {
       const movie = this.movie
       const vote = this.vote
       const watch_with = this.watch_with
+      console.log(movie)
       if(!title){
         alert('제목을 입력해 주세요')
         return
@@ -85,7 +112,6 @@ export default {
         return
       }else if(!movie){
         alert('영화를 선택해 주세요')
-        console.log(movie)
         return
       }
       axios({
@@ -105,32 +131,25 @@ export default {
           console.log(err)
         })
     },
-    onInput(){
-      if (this.keyWord){
-        axios({
-          method  : 'get',
-          url : `${URL}/api/v1/movies/option/${this.keyWord}/`,
-        })
-        .then((res) => {
-          this.movies = res.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      }else{
-        this.movieId = null
-      }
+    moviesAll(){
+      axios({
+        method : 'get',
+        url : `${URL}/api/v1/movies/all/`
+      })
+      .then((res) => {
+        this.movies=res.data
+      })
     },
-    selectMovie(event){
-      const option = event.target.parentElement.querySelector('option')
-      const movieId = option.getAttribute('data-movieId')
-      this.movie = movieId
-      console.log(this.movie)
+    updateMovie(event){
+      this.movie = event.target.value
     }
-  }
+  },
 }
+
 </script>
 
 <style>
-
+  /* #movies > option{
+    color: black;
+  } */
 </style>

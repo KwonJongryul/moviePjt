@@ -127,7 +127,7 @@ export default new Vuex.Store({
         }
       })
         .then((res) => {
-          context.commit('GET_REVIEWS', res.data)
+          context.commit('GET_REVIEWS', res.data.reverse())
         })
         .catch((err) => {
           console.log(err)

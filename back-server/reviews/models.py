@@ -8,7 +8,7 @@ class Review(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_reviews')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_reviews')
     title = models.CharField(max_length=50)
-    vote = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
+    vote = models.FloatField(validators=[MinValueValidator(1), MaxValueValidator(10)])
     context = models.TextField()
     
     
@@ -17,6 +17,6 @@ class Review(models.Model):
     watch_date = models.DateField(auto_now=True)
     watch_with = models.CharField(max_length=50)
     quotes = models.TextField()
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews')
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews', blank=True)
     def __str__(self):
         return self.title

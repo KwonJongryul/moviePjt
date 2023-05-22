@@ -10,6 +10,7 @@ class ReviewListSerializer(serializers.ModelSerializer):
         
 class ReviewSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
+    watch_date = serializers.CharField(read_only=False)
     class Meta :
         model = Review
         fields = '__all__'
