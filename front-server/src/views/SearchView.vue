@@ -12,19 +12,27 @@
         "검색 결과 총<span style="color:rgb(79, 208, 234);"> {{ search_results && search_results.length }}</span>건의 영화가 발견되었습니다.
     </div>
 
-
     <div class="search-results">
     <div v-if="search_results" class="row row-cols-1 row-cols-md-3 g-4">
       <div v-for="movie in search_results" :key="movie.id" class="col">
+        <div class="card" 
+        style="display: flex; justify-content: center; align-items: center; 
+        width:300px;">
+
         <router-link :to="{ name: 'MovieDetailView', params: { id: movie.id}}">
-        <div>
-        <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" class="card-img-top" alt="Movie Poster">
-        <h5 class="card-title">{{ movie.title }}</h5>
-        </div>
+        <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+        class="card-img-top" style="width:300px; height:430px;"
+        alt="Movie Poster">
         </router-link>
+
+        <h5 class="card-title" 
+        style="width:300px; height:60px; text-align: center; font-size:15px; 
+        display:flex; justify-content:center; align-items:center; padding:15px; color:black;">
+        {{ movie.title }}</h5>
+        </div>
       </div>
     </div>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -97,5 +105,6 @@ export default {
   .search-results {
     /* margin-top: 80px; */
     padding: 20px;
+    width: 1100px;
   }
 </style>
