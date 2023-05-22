@@ -24,11 +24,9 @@ def review_list(request):
         serializer = ReviewSerializer(data=request.data)
         print(serializer)
         if serializer.is_valid():
-            print('??')
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            print('???')
             print(serializer.errors)
 
 # ----------------게시글 디테일 불러오기, 식제, 수정------------------------------
@@ -43,7 +41,6 @@ def review_detail(request, review_pk):
     
     elif request.user == user:
         if request.method == 'DELETE':
-            print(review)
             review.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 

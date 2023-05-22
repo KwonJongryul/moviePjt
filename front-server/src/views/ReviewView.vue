@@ -45,7 +45,7 @@ export default {
       }else{
         this.$router.push({name : 'LoginView'})
       }
-    }
+    },
   },
 }
 </script>

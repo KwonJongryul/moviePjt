@@ -7,6 +7,8 @@ import SignUpView from '@/views/SignUpView'
 import LoginView from '@/views/LoginView'
 import ReviewView from '@/views/ReviewView';
 import ReviewCreate from '@/views/ReviewCreate'
+import ReviewDetail from '@/views/ReviewDetail'
+import ReviewUpdate from '@/views/ReviewUpdate'
 Vue.use(VueRouter)
 
 const routes = [
@@ -44,6 +46,16 @@ const routes = [
     path: '/review/create',
     name: 'ReviewCreate',
     component: ReviewCreate
+  },
+  {
+    path: '/review/:id',
+    name: 'ReviewDetail',
+    component: ReviewDetail
+  },
+  {
+    path: '/review/update/:id',
+    name: 'ReviewUpdate',
+    component: ReviewUpdate
   },
 
 ]

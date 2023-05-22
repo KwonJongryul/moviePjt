@@ -1,8 +1,12 @@
 <template>
-  <li>
-    <img :src="`https://image.tmdb.org/t/p/w500/${ imgUrl }`" alt="이미지 준비중입니다." width="100px">
-    {{ review }}
-  </li>
+  <router-link :to="{name:'ReviewDetail', params: {id: review.id}}" style="text-decoration: none;">  
+    <li>
+      <div id="item">
+        <img :src="`https://image.tmdb.org/t/p/w500/${ imgUrl }`" alt="이미지 준비중입니다." width="100px">
+        <span>{{ review }}</span>
+      </div>
+    </li>
+  </router-link>
 </template>
 
 <script>
@@ -43,4 +47,10 @@ export default {
   li{
     list-style: none;
   }
+  #item > span{
+    font-family: 'Hahmlet', serif;
+    background-color : black;
+    color : white;
+  }
+
 </style>

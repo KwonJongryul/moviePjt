@@ -13,7 +13,8 @@ export default new Vuex.Store({
   state: {
     movies : [],
     token : null,
-    reviews : null
+    reviews : null,
+    username : null,
   },
   getters: {
     islogin(state){
@@ -30,8 +31,9 @@ export default new Vuex.Store({
     GET_REVIEWS(state, reviews){
       state.reviews = reviews
     },
-    SAVE_TOKEN(state, key){
-      state.token = key
+    SAVE_TOKEN(state, payload){
+      state.token = payload.key
+      state.username = payload.username
       router.push({name:'HomeView'})
     },
     LOGOUT_TOKEN(state){
@@ -77,7 +79,9 @@ export default new Vuex.Store({
         },
       })
       .then((res) => {
-        commit('SAVE_TOKEN', res.data.key)
+        const key = res.data.key
+        const payload = {key, username}
+        commit('SAVE_TOKEN', payload)
       })
       .catch((err)=> {
         console.log(err)
