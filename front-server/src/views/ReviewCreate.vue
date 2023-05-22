@@ -7,7 +7,7 @@
       </p>
       <p>
         <label for="movies"><strong>영화 </strong></label>
-        <select id="movieSelect" style="width: 250px;">
+        <select class="movieSelect" style="width: 250px;">
           <option value="">영화를 선택해 주세요!</option>
           <option v-for="movie in movies" :key="movie.id" :value="movie.id">{{ movie.title }}</option>
         </select>
@@ -40,19 +40,13 @@
   </div>
 </template>
 
-<script src="https://code.jquery.com/jquery-1.12.4.js">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-</script>
 <script>
 import axios from 'axios'
-
-
 const URL = 'http://127.0.0.1:8000'
 export default {
   name : 'ReviewCreate',
-  components:{
-    // SelectItem
-  },
   data () {
     return {
       title : null,
@@ -62,17 +56,16 @@ export default {
       movie : null,
       vote : 0,
       watch_with : null,
-      // 셀렉트 검색
       keyWord : null,
       movies : null
     }
   },
   mounted() {
-  $(this.$el)
+    $(this.$el)
     .find("#movieSelect")
     .select2();
     $(document).ready(function() {
-      $('#movieSelect').select2({
+      $('.movieSelect').select2({
         templateResult: function(movie) {
           if (!movie.id) {
             return movie.text;

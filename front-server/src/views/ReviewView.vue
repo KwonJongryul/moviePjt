@@ -1,8 +1,9 @@
 <template>
-  <div style="width: 600px;">
+  <div style="width: 1100px;">
     <h1>회원님들이 작성한 리뷰</h1>
-    <button @click="goCreate">작성하러 가기</button>
+    <button @click="goCreate" class="my-5">작성하러 가기</button>
     <ul>
+      <hr style="border: solid white;">
       <ReviewItem 
       v-for="review in reviews" 
       :key="review.id"

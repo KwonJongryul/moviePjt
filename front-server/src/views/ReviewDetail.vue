@@ -11,8 +11,8 @@
     <p>
       <span>감상일 : {{ review?.watch_date}}</span>
     </p>
-    <p>
-      <span>👍 : {{ review?.like_users.length }}</span>
+    <p id="like" @click="like">
+      <span>👍 : {{ likeUsers }}</span>
     </p>
     <p>
       <span>평점 : {{ '⭐'.repeat(parseInt(review?.vote/2)) }}</span>
@@ -27,7 +27,8 @@
       <span>명대사 : {{ review?.watch_with }}</span>
     </p>
     <router-link :to="{name:'review'}"><button>목록으로</button></router-link>&nbsp;
-    <router-link :to="{name:'ReviewUpdate'}" v-if="review?.username===username"><button>수정하기</button></router-link>
+    <router-link :to="{name:'ReviewUpdate', params: { id : review.id }}" v-if="review?.username===username"><button>수정하기</button></router-link>&nbsp;
+    <button @click="reviewDelete" v-if="review?.username===username">삭제하기</button>
   </div>
 </template>
 
@@ -41,6 +42,14 @@ export default {
     return {
       review : null,
       username : null
+    }
+  },
+  computed:{
+    likeUsers(){
+      if(this.review){
+        return this.review.like_users.length
+      }
+      return 0
     }
   },
   created(){
@@ -68,11 +77,52 @@ export default {
     },
     getUser(){
       this.username = this.$store.state.username
+    },
+    reviewDelete(){
+      if(!confirm('정말로 삭제하시겠습니까?')){
+        alert('취소되었습니다')
+        return
+      }else{
+        axios({
+          method : 'delete',
+          url : `${URL}/api/v1/reviews/${this.$route.params.id}/`,
+          headers : {
+          Authorization : `Token ${this.$store.state.token}`
+        }
+        })
+          .then(() => {
+            alert('삭제되었습니다')
+            this.$router.push({name:'review'})
+          })
+          .catch(() => {
+            alert('삭제에 실패하였습니다')
+            return
+          })
+      }
+    },
+    like(){
+      axios({
+        method : 'post',
+        url : `${URL}/api/v1/like/${this.$route.params.id}/`,
+        headers:{
+          Authorization : `Token ${this.$store.state.token}`
+        }
+      })
+        .then(() => {
+          // 좋아요 한 뒤 정보를 다시 가져와 좋아요 수가 화면에
+          // 반영되게 함
+          this.getReview()
+        })
+        .catch((err) =>  {
+          console.log(err)
+        })
     }
   }
 }
 </script>
 
 <style>
-
+  #like{
+    cursor: pointer;
+  }
 </style>

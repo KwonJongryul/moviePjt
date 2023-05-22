@@ -15,6 +15,7 @@ export default new Vuex.Store({
     token : null,
     reviews : null,
     username : null,
+    userid: null
   },
   getters: {
     islogin(state){
@@ -47,7 +48,6 @@ export default new Vuex.Store({
       // 로그인 됐을때
       if (context.getters.islogin){
         URL = `http://127.0.0.1:8000/api/v1/genremovies/`
-        console.log('gg')
       }else{ // 안됐을때
         URL = 'https://api.themoviedb.org/3/movie/now_playing?api_key=3c1824cd40b0044d7944ab5a55d4cb16&language=ko-KR&page=1'
       }
@@ -71,6 +71,7 @@ export default new Vuex.Store({
     login({commit}, payload){
       const username = payload.username
       const password = payload.password
+      console.log(payload)
       axios({
         method : 'post',
         url : 'http://127.0.0.1:8000/accounts/login/',

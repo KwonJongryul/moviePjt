@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div v-if="review">
     <UpdateForm
       :review="review"
     />
   </div>
 </template>
+
 
 <script>
 import axios from "axios"
@@ -15,6 +16,7 @@ export default {
   data (){
     return {
       review : null,
+      movies : null
     }
   },
   components:{
@@ -25,9 +27,6 @@ export default {
   },
   methods:{
     getReview(){
-      if(!this.$store.getters.islogin){
-        this.$router.push({name:'HomeView'})
-      }
       axios({
         method : 'get',
         url : `${URL}/api/v1/reviews/${this.$route.params.id}/`,
@@ -37,12 +36,13 @@ export default {
       })
       .then((res) => {
         this.review = res.data
+        console.log(this.review)
       })
       .catch((err) => {
         console.log(err)
       })
     },
-  }
+  },
 }
 </script>
 

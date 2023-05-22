@@ -34,20 +34,29 @@ def review_list(request):
 @permission_classes([IsAuthenticated])
 def review_detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
-    user = review.user
     if request.method == 'GET':
         serializer = ReviewSerializer(review)
         return Response(serializer.data)
     
-    elif request.user == user:
-        if request.method == 'DELETE':
-            review.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'DELETE':
+        review.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-        elif request.method == 'PUT':
-            serializer = ReviewSerializer(review, data=request.data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response(serializer.data)
+    elif request.method == 'PUT':
+        print(request.data)
+        serializer = ReviewSerializer(review, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
 
     return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def review_like(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk)
+    if review.like_users.filter(pk=request.user.pk).exists():
+        review.like_users.remove(request.user)
+    else:
+        review.like_users.add(request.user)
+    return Response(status=status.HTTP_202_ACCEPTED)

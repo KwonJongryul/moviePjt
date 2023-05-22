@@ -62,7 +62,6 @@ export default {
       movie : this.review.movie,
       vote : this.review.vote,
       watch_with : this.review.watch_with,
-      // 셀렉트 검색
       movies : null
     }
   },
@@ -114,8 +113,8 @@ export default {
         return
       }
       axios({
-        method : 'post',
-        url : `${URL}/api/v1/reviews/`,
+        method : 'put',
+        url : `${URL}/api/v1/reviews/${this.review.id}/`,
         headers : {
           Authorization : `Token ${ this.$store.state.token }`
         },
@@ -137,6 +136,9 @@ export default {
       })
       .then((res) => {
         this.movies=res.data
+      })
+      .catch((err) => {
+        console.log(err)
       })
     },
     updateMovie(event){
