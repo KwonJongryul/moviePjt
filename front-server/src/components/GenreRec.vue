@@ -4,7 +4,7 @@
     <div class="carousel-inner">
       <div class="carousel-item active" data-bs-interval="2000">
         <img :src="`${URL+genremovies[0].backdrop_path}`" class="d-block w-100">
-        <h1>{{ genremovies[0].title }}</h1>
+        <h3 style="text-align:end;">{{ genremovies[0].title }}</h3>
       </div>
       <GenreItem v-for="movie in movies" :key="movie.id" :genremovie="movie"/>
     </div>
@@ -26,7 +26,7 @@ export default {
   name: 'GenreRec',
   data(){
     return {
-      URL : 'https://image.tmdb.org/t/p/w500/',
+      URL : 'https://image.tmdb.org/t/p/original/',
       // 여기 carousel-item active엔 첫번째 사진 무조건 넣어야 해서 
       // GenreItem에 넣을 애들은 잘랐습니다
       movies : this.genremovies.slice(1)

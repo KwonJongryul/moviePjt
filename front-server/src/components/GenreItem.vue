@@ -1,7 +1,7 @@
 <template>
   <div class="carousel-item" data-bs-interval="2000">
     <img :src="`${URL+genremovie.backdrop_path}`" class="d-block w-100">
-    <h1>{{ genremovie.title }}</h1>
+    <h3 style="text-align:end;">{{ genremovie.title }}</h3>
   </div>
 
 
@@ -12,7 +12,7 @@ export default {
   name:'GenreItem',
   data(){
     return {
-      URL : 'https://image.tmdb.org/t/p/w500/'
+      URL : 'https://image.tmdb.org/t/p/original/'
     }
   },
   props:{
