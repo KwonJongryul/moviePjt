@@ -1,38 +1,57 @@
 <template>
   <div class="detail-back">
+    <!-- 이거는 뒷배경 -->
     <div class="background" :style="{ backgroundImage: 'url(' + backdropImageUrl + ')' }"></div>
     
     <div class="detail_movie">
+      <!-- 포스터 -->
       <img :src="'https://image.tmdb.org/t/p/original' + movie.poster_path" 
       style="width:500px; height:700px; margin-right:50px; 
       box-shadow:10px 10px 10px rgba(0, 0, 0, 0.589);"
       alt="Movie Poster">
 
       <div>
-        <p style="font-size:60px; margin-bottom:30px; background-color: transparent;">
+        <!-- 여기는 영화 설명임 -->
+        <p style="font-size:50px; margin-bottom:20px; background-color: transparent;">
           {{ movie.title }}</p>
-        <h5 style="text-align:end; margin-bottom:50px;">
-          {{ movie.original_title }} | {{ movie.release_date }}</h5>
-        <h5 class="overview">{{ movie.overview }}</h5>
-        <input type="checkbox" class="overview__more-btn" id="overview-toggle">
-        <label for="overview-toggle" class="overview__more-btn-label"></label>
-        
-        <!-- 요고는 전체별점임 -->
-        <div style="display:flex; align-items: center; justify-content: end;">
-          <div class="star-ratings">
-            <div 
-              class="star-ratings-fill space-x-2 text-lg"
-              :style="{ width: ratingToPercent + '%' }">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-            </div>
-            <div class="star-ratings-base space-x-2 text-lg">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-            </div>
-          </div>
-          <h5 style="margin: 0 0 -30px 10px;">( {{ movie.vote_count }} )</h5>
+        <div style="font-size:20px; margin-bottom:50px;
+        display: flex; justify-content: space-between;">
+          <span>
+            {{ movie.original_title }} | {{ movie.release_date }}
+          </span>
+          <button type="button" class="btn btn-danger" @click="showTrailer">
+            {{ buttonText }}
+          </button>
         </div>
-      </div>
 
+        <div v-if="trailer">
+          <h5 class="overview">{{ movie.overview }}</h5>
+          <input type="checkbox" class="overview__more-btn" id="overview-toggle">
+          <label for="overview-toggle" class="overview__more-btn-label"></label>
+          <!-- 요고는 전체별점임 -->
+          <div style="display:flex; align-items: center; justify-content: end;">
+            <div class="star-ratings">
+              <div 
+                class="star-ratings-fill space-x-2 text-lg"
+                :style="{ width: ratingToPercent + '%' }">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+              <div class="star-ratings-base space-x-2 text-lg">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+            </div>
+            <h5 style="margin: 0 0 -30px 10px;">전체 평점 {{ this.movie.vote_average / 2 }} ( {{ movie.vote_count }} )</h5>
+          </div>
+        </div>
+
+        <!-- 예고편한번 가져와본다내가 -->
+        <div v-if="!trailer">
+          <iframe width="950" height="500" 
+          :src="`https://www.youtube.com/embed/${ video.results[0].key }`" 
+          frameborder="0" allowfullscreen></iframe>
+        </div>
+        
+      </div>
     </div>
 
     <!-- 여기서부터는 credit입니다 -->
@@ -41,12 +60,12 @@
       <h1 class="mb-4">감독</h1>
       <div class="people">
       <div v-for="crew in credits.crew" :key="crew.id">
-        <div v-if="crew.department === 'Directing'" class="person">
+        <div v-if="crew.job === 'Director'" class="person">
           <img :src="'https://image.tmdb.org/t/p/original' + crew.profile_path" 
           style="width:150px; height:200px;"
           alt="Director">
-          <p>{{ crew.name }}</p>
-          <p>{{ crew.job }}</p>
+          <p style="font-size:20px; margin-bottom:0">{{ crew.name }}</p>
+          <p style="font-size:17px; color:gray">{{ crew.job }}</p>
         </div>
       </div>
       </div>
@@ -56,12 +75,13 @@
         <div v-if="cast.known_for_department === 'Acting' && index < 7" class="person">
           <img :src="'https://image.tmdb.org/t/p/original' + cast.profile_path" 
           style="width:150px; height:200px;">
-          <p>{{ cast.name }}</p>
-          <p>{{ cast.character }} 역</p>
+          <p style="font-size:20px; margin-bottom:0;">{{ cast.name }}</p>
+          <p style="font-size:17px; color:gray">{{ cast.character }} 역</p>
         </div>
       </div>
       </div>
     </div>
+
 
   </div>
 </template>
@@ -75,7 +95,10 @@ export default {
   data(){
     return {
       movie: [],
-      credits : []
+      credits : [],
+      video : [],
+      trailer : true,
+      buttonText : '예고편 보러가기'
     }
   },
   // components :{
@@ -93,6 +116,7 @@ export default {
   mounted(){
     this.getMovieDetail()
     this.getCreditMovie()
+    this.getTrailer()
   },
   methods : {
     getMovieDetail(){
@@ -137,6 +161,29 @@ export default {
       .catch((err)=>{
         console.log(err)
       })
+    },
+    getTrailer(){
+      axios({
+        method: 'get',
+        url: `https://api.themoviedb.org/3/movie/${this.$route.params.id}/videos?language=en-US`,
+        headers: {
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYzE4MjRjZDQwYjAwNDRkNzk0NGFiNWE1NWQ0Y2IxNiIsInN1YiI6IjYzZDMxNzgwY2I3MWI4MDBhMTBkOTRiYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.8hiV71qR0GYKuQVn3fOLORjfCqbz4DglPhvAe3SlhQY'
+        },
+      })
+      .then((res)=>{
+        this.video = res.data
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    showTrailer(){
+      this.trailer = !this.trailer
+      if (this.trailer){
+        this.buttonText = '예고편 보러가기'
+      } else {
+        this.buttonText = '줄거리 보러가기'
+      }
     }
   }
 
@@ -242,16 +289,15 @@ export default {
 .credit_detail {
   /* display:flex;  */
   width:1500px; 
-  margin-top:200px;
+  margin-top:50px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .people {
   display:flex;
-  font-size: 16px;
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .person {
@@ -259,7 +305,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-right: 50px;
+  margin-right: 60px;
   flex:1;
+  width:150px;
 }
 </style>
