@@ -8,6 +8,7 @@ from .models import Review
 from .serializers import ReviewSerializer, ReviewListSerializer, UserSerializer
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import get_user_model
 
 
 # -------------게시글 리스트 불러오기, 게시글 쓰기--------------------------------
@@ -65,6 +66,13 @@ def review_like(request, review_pk):
 @permission_classes([IsAuthenticated])
 def get_id(request):
     user = request.user
-    print(user)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_user(request, pk):
+    USER = get_user_model()
+    user = get_object_or_404(USER, pk=pk)
     serializer = UserSerializer(user)
     return Response(serializer.data)
