@@ -22,6 +22,7 @@
         <router-link :to="{ name: 'SignUpView' }" v-show="!islogin" class="nav-link navfont" :class="{ 'active': $route.name === 'SignUpView'}">SignUp</router-link>
         <router-link :to="{ name: 'LoginView' }" v-show="!islogin" class="nav-link navfont" :class="{ 'active': $route.name === 'LoginView'}">LogIn</router-link>
         <router-link :to="{ name: 'HomeView' }" class="nav-link navfont"><span @click.prevent="logout" v-if="islogin">LogOut</span></router-link>
+        <router-link :to="{ name: 'ProfileView' }"></router-link>
         </div>
       </div>
     </nav>
@@ -32,7 +33,7 @@
   </div>
 </template>
 <script>
-// import axios from "axios"
+
 
 export default{
   name : 'AppView',

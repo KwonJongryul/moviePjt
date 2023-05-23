@@ -62,7 +62,7 @@ export default {
   },
   mounted() {
     $(this.$el)
-    .find("#movieSelect")
+    .find(".movieSelect")
     .select2();
     $(document).ready(function() {
       $('.movieSelect').select2({
@@ -79,7 +79,7 @@ export default {
       });
     });
     // $('#movieSelect').on('change',function(event){ console.log(event.target.value) })
-    $('#movieSelect').on('change', this.updateMovie)
+    $('.movieSelect').on('change', this.updateMovie)
   },
   created() {
     this.moviesAll()

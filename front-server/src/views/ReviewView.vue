@@ -20,6 +20,7 @@ export default {
   name: 'ReviewView',
   data(){
     return {
+      // reviews : this.$store.state.reviews
     }
   },
   computed:{
@@ -33,7 +34,7 @@ export default {
   components : {
     ReviewItem
   },
-  created(){
+  mounted(){
     this.getRivews()
   },
   methods: {

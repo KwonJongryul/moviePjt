@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="create">
+    <form @submit.prevent="update">
       <p>
         <label for="title"><strong>제목</strong></label>
         <input type="text" v-model.trim="title" id="title">
@@ -90,7 +90,7 @@ export default {
     this.moviesAll()
   },
   methods : {
-    create(){
+    update(){
       const title = this.title
       const context = this.context
       const watch_date = this.watch_date
@@ -98,7 +98,6 @@ export default {
       const movie = this.movie
       const vote = this.vote
       const watch_with = this.watch_with
-      console.log(movie)
       if(!title){
         alert('제목을 입력해 주세요')
         return
@@ -123,6 +122,7 @@ export default {
         }
       })
         .then(() => {
+          alert('수정되었습니다')
           this.$router.push({name:'review'})
         })
         .catch((err) => {

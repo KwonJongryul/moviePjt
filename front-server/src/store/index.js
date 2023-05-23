@@ -14,8 +14,7 @@ export default new Vuex.Store({
     movies : [],
     token : null,
     reviews : null,
-    username : null,
-    userid: null,
+    user: null,
     redirectPath: '/',
   },
   getters: {
@@ -33,9 +32,8 @@ export default new Vuex.Store({
     GET_REVIEWS(state, reviews){
       state.reviews = reviews
     },
-    SAVE_TOKEN(state, payload){
-      state.token = payload.key
-      state.username = payload.username
+    SAVE_TOKEN(state, key){
+      state.token = key
       router.push({name:'HomeView'})
     },
     LOGOUT_TOKEN(state){
@@ -44,6 +42,9 @@ export default new Vuex.Store({
     SET_REDIRECT_PATH(state, path){
       state.redirectPath = path
       console.log(state.redirectPath)
+    },
+    GET_ID(state, user){
+      state.user = user
     }
   },
   actions: {
@@ -85,17 +86,34 @@ export default new Vuex.Store({
       })
       .then((res) => {
         const key = res.data.key
-        const payload = {key, username}
-        commit('SAVE_TOKEN', payload)
+        commit('SAVE_TOKEN', key)
         // 로그인전에 이동하려던 페이지로 이동
         if(state.redirectPath!='/'){
           router.push(state.redirectPath||'/')
           commit('SET_REDIRECT_PATH', '/')
         }
       })
+      .then(()=> {
+        this.dispatch('getUser')
+      })
       .catch((err)=> {
         console.log(err)
         alert('로그인에 실패했습니다. 다시 시도해주세요')
+      })
+    },
+    getUser({commit, state}){
+      axios({
+        method : 'get',
+        url : 'http://127.0.0.1:8000/api/v1/getid/',
+        headers : {
+          Authorization : `Token ${ state.token }`
+        }
+      })
+      .then((res) => {
+        commit('GET_USER', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
       })
     },
     signup(context, payload){
@@ -150,8 +168,7 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
-    }
-    
+    },
   },
   modules: {
   }
