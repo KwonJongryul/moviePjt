@@ -15,7 +15,8 @@ export default new Vuex.Store({
     token : null,
     reviews : null,
     username : null,
-    userid: null
+    userid: null,
+    redirectPath: '/',
   },
   getters: {
     islogin(state){
@@ -40,6 +41,10 @@ export default new Vuex.Store({
     LOGOUT_TOKEN(state){
       state.token = null
     },
+    SET_REDIRECT_PATH(state, path){
+      state.redirectPath = path
+      console.log(state.redirectPath)
+    }
   },
   actions: {
     // 영화 목록 얻어오기
@@ -68,10 +73,9 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    login({commit}, payload){
+    login({commit, state}, payload){
       const username = payload.username
       const password = payload.password
-      console.log(payload)
       axios({
         method : 'post',
         url : 'http://127.0.0.1:8000/accounts/login/',
@@ -83,12 +87,18 @@ export default new Vuex.Store({
         const key = res.data.key
         const payload = {key, username}
         commit('SAVE_TOKEN', payload)
+        // 로그인전에 이동하려던 페이지로 이동
+        if(state.redirectPath!='/'){
+          router.push(state.redirectPath||'/')
+          commit('SET_REDIRECT_PATH', '/')
+        }
       })
       .catch((err)=> {
         console.log(err)
+        alert('로그인에 실패했습니다. 다시 시도해주세요')
       })
     },
-    signup({commit}, payload){
+    signup(context, payload){
       const username = payload.username
       const password1 = payload.password1
       const password2 = payload.password2
@@ -99,12 +109,15 @@ export default new Vuex.Store({
           username, password1, password2
         },
       })
-      .then((res) => {
-        console.log(res)
-        commit('SAVE_TOKEN', res.data.key)
+      .then(() => {
+        // console.log(res)
+        // commit('SAVE_TOKEN', res.data.key)
+        alert('정상적으로 회원가입되었습니다. 로그인해 주세요.')
+        router.push({name:'HomeView'})
       })
       .catch((err) => {
         console.log(err)
+        alert('이미 존재하는 아이디입니다')
       })
     },
     logout({commit}){

@@ -9,6 +9,7 @@
       <input type="password" id="password1" v-model="password1" class="input" placeholder="패스워드를 입력해주세요"><br>
       <!-- <label for="password2">password2 : </label> -->
       <input type="password" id="password2" v-model="password2" class="input" placeholder="패스워드를 한 번 더 입력해주세요"><br>
+      <span>{{ message }}</span>
       <input type="submit" value="가입하기" class="submit-btn">
     </form>
     </div>
@@ -23,6 +24,18 @@ export default {
       username : null,
       password1 : null,
       password2 : null,
+      
+    }
+  },
+  computed:{ 
+    message(){
+      if (!this.password1){
+        return ''
+      }
+      else if (this.password1 === this.password2 && this.password1){
+        return '패스워드가 일치합니다.'
+      }
+      return '패스워드가 일치하지 않습니다.'
     }
   },
   methods: {
@@ -30,7 +43,12 @@ export default {
       const username = this.username
       const password1 = this.password1
       const password2 = this.password2
-
+      if(password1 != password2){
+        alert('패스워드가 일치하지 않습니다.')
+        this.password1 = ''
+        this.password2 = ''
+        return
+      }
       const payload = {
         username, password1, password2
       }

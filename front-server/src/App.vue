@@ -51,6 +51,10 @@ export default{
   methods: {
     logout(){
       this.$store.dispatch('logout')
+      alert('로그아웃 되었습니다')
+      if (this.$route.path != '/') {
+      this.$router.push({name:'HomeView'}); // 중복된 네비게이션을 피하기 위해 네비게이션을 수행하지 않음
+      }
     },
     searchMovies() {
       // if (this.$route.path === '/searchlist') {
