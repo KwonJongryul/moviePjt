@@ -91,6 +91,8 @@ export default new Vuex.Store({
         if(state.redirectPath!='/'){
           router.push(state.redirectPath||'/')
           commit('SET_REDIRECT_PATH', '/')
+        }else{
+          router.push({name:'HomeView'})
         }
       })
       .then(()=> {

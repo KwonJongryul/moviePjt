@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    {{  }}
     <nav class="nav navbar navbar-expand-lg fixed-top">
       <div class="container-fluid">
         <router-link :to="{ name: 'HomeView' }">
@@ -23,7 +22,7 @@
         <router-link :to="{ name: 'SignUpView' }" v-show="!islogin" class="nav-link navfont" :class="{ 'active': $route.name === 'SignUpView'}">SignUp</router-link>
         <router-link :to="{ name: 'LoginView' }" v-show="!islogin" class="nav-link navfont" :class="{ 'active': $route.name === 'LoginView'}">LogIn</router-link>
         <router-link :to="{ name: 'HomeView' }" class="nav-link navfont"><span @click.prevent="logout" v-if="islogin">LogOut</span></router-link>
-        <router-link :to="{ name: 'ProfileView' }"><img :src="`${URL + user.user_img}`" alt="profile" width="50px" style="clip-path: circle(50% at center);" class="mx-2" id="profile" v-if="islogin"></router-link>
+        <router-link :to="{ name: 'ProfileView', params: {id : user.id} }"><img :src="`${URL + user.user_img}`" alt="profile" width="50px" style="clip-path: circle(50% at center);" class="mx-2" id="profile" v-if="islogin"></router-link>
         </div>
       </div>
     </nav>
