@@ -15,7 +15,7 @@
 
         <div style="display:flex; justify-content: center; align-items:center;">
         <input type="text" v-model="search_movie" class="main_search"
-        @keydown.enter="searchMovies" :placeholder="user.user_img">
+        @keydown.enter="searchMovies" placeholder="검색어를 입력해 주세요.">
         <button @click="searchMovies" class="main_search_button">🔍︎</button>
         </div>
 
@@ -23,7 +23,7 @@
         <router-link :to="{ name: 'SignUpView' }" v-show="!islogin" class="nav-link navfont" :class="{ 'active': $route.name === 'SignUpView'}">SignUp</router-link>
         <router-link :to="{ name: 'LoginView' }" v-show="!islogin" class="nav-link navfont" :class="{ 'active': $route.name === 'LoginView'}">LogIn</router-link>
         <router-link :to="{ name: 'HomeView' }" class="nav-link navfont"><span @click.prevent="logout" v-if="islogin">LogOut</span></router-link>
-        <router-link :to="{ name: 'ProfileView' }"><img :src="`${URL + user.user_img}`" alt="profile"></router-link>
+        <router-link :to="{ name: 'ProfileView' }"><img :src="`${URL + user.user_img}`" alt="profile" width="50px" style="clip-path: circle(50% at center);" class="mx-2" id="profile"></router-link>
         </div>
       </div>
     </nav>
@@ -42,7 +42,7 @@ export default{
     return {
       search_movie:null,
       user : this.$store.state.user,
-      URL : 'http://127.0.0.1:8000/media/'
+      URL : 'http://127.0.0.1:8000'
     }
   },
   computed:{
@@ -118,4 +118,9 @@ body {
     margin-left: 10px;
     text-decoration: none;
   }
+#profile{
+  width: 50px;
+  height: 50px;
+  clip-path: circle(50%); /* 가로 길이를 반지름으로 사용 */
+}
 </style>
