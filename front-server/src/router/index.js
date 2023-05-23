@@ -10,6 +10,7 @@ import ReviewCreate from '@/views/ReviewCreate'
 import ReviewDetail from '@/views/ReviewDetail'
 import ReviewUpdate from '@/views/ReviewUpdate'
 import ProfileView from '@/views/ProfileView'
+import ProfileUpdate from '@/views/ProfileUpdate'
 import store from "@/store"
 Vue.use(VueRouter)
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/profile/:id',
     name: 'ProfileView',
     component: ProfileView
+  },
+  {
+    path: '/profile/:id',
+    name: 'ProfileUpdate',
+    component: ProfileUpdate
   },
 ]
 

@@ -1,17 +1,44 @@
 <template>
-  <div style="width: 1100px;" class="d-flex row mt-5">
-    <div class="col-4">
-      <div class="row justify-content-center">
-        <div class="">
-          <img :src="url + user.user_img" alt="이미지가 없어요 😢" id="profile2">
-          <h3>{{ user.username }}</h3>
+<div style="width: 1200px;" class="d-flex row mt-5">
+  <div class="col-4 d-flex justify-content-center divBox" style="height: 500px;">
+    <div>
+      <img :src="url + user?.user_img" alt="이미지가 없어요 😢" id="profile2">
+      <h3 style="text-align: center; margin-top: 30px;">{{ user?.username }}</h3>
+      <div class="row mt-4">
+        <div class="col">
+          <p>0</p>
+          <p>Followers</p>
+        </div>
+        <div class="col">
+          <p>0</p>
+          <p>Following</p>
         </div>
       </div>
-    </div>
-    <div class="col-8">
-
+      <div style="border: solid 1px brown; height: 50px; cursor: pointer;" class="d-flex align-items-ceter justify-content-center mt-4"
+      v-if="user?.id==now_user"
+      @click="goUpdate"
+      >
+        <span style="margin: auto 0;">회원정보 수정하기</span>
+      </div>
     </div>
   </div>
+  <div class="col-1"></div>
+  <div class="col-7 divBox">
+    <div style="padding: 25px;border-bottom: solid snow 1px;">
+      <h1>{{ user?.username }}님의 프로필</h1><br>
+      <h2>{{ user?.One_liner }}</h2>
+    </div>
+    <div style="padding: 25px;">
+      <h3>E-mail</h3>
+      <h4 v-if="user?.email">{{ user?.email }}</h4>
+      <h4 v-else class="mt-3 mb-5">이메일이 없습니다.</h4>
+      <h4>선호 장르 : <span v-if="user?.like_genres.length>0">{{ user.like_genres }}</span>
+      <span v-else>아직 선택된 장르가 없어요!</span>
+      </h4>
+    </div>
+  </div>
+</div>
+
 </template>
 
 <script>
@@ -22,7 +49,8 @@ export default {
   data(){
     return {
       user : null,
-      url : URL
+      url : URL,
+      now_user : this.$store.state.user?.id
     }
   },
   created(){
@@ -44,6 +72,9 @@ export default {
       .catch((err) => {
         console.log(err)
       })
+    },
+    goUpdate(){
+      this.$router.push({name:'ProfileUpdate', params:{id:this.$route.params.id}})
     }
   }
 }
@@ -54,5 +85,14 @@ export default {
   width: 200px;
   height: 200px;
   clip-path: circle(50%); /* 가로 길이를 반지름으로 사용 */
+}
+.divBox{
+  /* background-color: rgb(122, 122, 122); */
+  border: solid 2px rgb(197, 197, 197);
+  padding: 30px;
+}
+.divBox p{
+  text-align: center;
+  line-height: 100%;
 }
 </style>

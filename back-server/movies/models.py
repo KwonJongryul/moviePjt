@@ -4,7 +4,7 @@ from django.conf import settings
 
 class Genre(models.Model):
     name = models.CharField(max_length=30)
-    genre_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_genres')
+
 
     
 # Create your models here.
