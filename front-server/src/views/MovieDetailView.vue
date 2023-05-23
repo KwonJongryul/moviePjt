@@ -9,14 +9,15 @@
       alt="Movie Poster">
 
       <div>
-        <p style="font-size:60px; margin-bottom:30px;">
+        <p style="font-size:60px; margin-bottom:30px; background-color: transparent;">
           {{ movie.title }}</p>
         <h5 style="text-align:end; margin-bottom:50px;">
           {{ movie.original_title }} | {{ movie.release_date }}</h5>
         <h5 class="overview">{{ movie.overview }}</h5>
         <input type="checkbox" class="overview__more-btn" id="overview-toggle">
-        <label for="overview-toggle" class="overview__more-btn-label">더보기</label>
+        <label for="overview-toggle" class="overview__more-btn-label"></label>
         
+        <!-- 요고는 전체별점임 -->
         <div style="display:flex; align-items: center; justify-content: end;">
           <div class="star-ratings">
             <div 
@@ -31,6 +32,35 @@
           <h5 style="margin: 0 0 -30px 10px;">( {{ movie.vote_count }} )</h5>
         </div>
       </div>
+
+    </div>
+
+    <!-- 여기서부터는 credit입니다 -->
+    <div class="credit_detail">
+      <hr style="border:3px solid white;">
+      <h1 class="mb-4">감독</h1>
+      <div class="people">
+      <div v-for="crew in credits.crew" :key="crew.id">
+        <div v-if="crew.department === 'Directing'" class="person">
+          <img :src="'https://image.tmdb.org/t/p/original' + crew.profile_path" 
+          style="width:150px; height:200px;"
+          alt="Director">
+          <p>{{ crew.name }}</p>
+          <p>{{ crew.job }}</p>
+        </div>
+      </div>
+      </div>
+      <h1 class="mb-4">출연</h1>
+      <div class="people">
+      <div v-for="(cast, index) in credits.cast" :key="cast.id">
+        <div v-if="cast.known_for_department === 'Acting' && index < 7" class="person">
+          <img :src="'https://image.tmdb.org/t/p/original' + cast.profile_path" 
+          style="width:150px; height:200px;">
+          <p>{{ cast.name }}</p>
+          <p>{{ cast.character }} 역</p>
+        </div>
+      </div>
+      </div>
     </div>
 
   </div>
@@ -38,14 +68,19 @@
 
 <script>
 import axios from 'axios'
+// import CreditMovie from "@/components/CreditMovie"
 
 export default {
   name : 'MovieDetailView',
   data(){
     return {
-      movie: []
+      movie: [],
+      credits : []
     }
   },
+  // components :{
+  //   CreditMovie
+  // },
   computed : {
     ratingToPercent(){
       const score = +this.movie.vote_average * 10
@@ -57,6 +92,7 @@ export default {
   },
   mounted(){
     this.getMovieDetail()
+    this.getCreditMovie()
   },
   methods : {
     getMovieDetail(){
@@ -81,6 +117,22 @@ export default {
       })
       .then((res)=>{
         this.movie = res.data
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    getCreditMovie(){
+      axios({
+        method: 'get',
+        url: `https://api.themoviedb.org/3/movie/${this.$route.params.id}/credits?language=ko-KR`,
+        headers: {
+          // 'Accept' : 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYzE4MjRjZDQwYjAwNDRkNzk0NGFiNWE1NWQ0Y2IxNiIsInN1YiI6IjYzZDMxNzgwY2I3MWI4MDBhMTBkOTRiYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.8hiV71qR0GYKuQVn3fOLORjfCqbz4DglPhvAe3SlhQY'
+        },
+      })
+      .then((res)=>{
+        this.credits = res.data
       })
       .catch((err)=>{
         console.log(err)
@@ -125,7 +177,7 @@ export default {
   line-height: 45px;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* 최대 3줄까지 표시 */
+  -webkit-line-clamp: 8; /* 최대 3줄까지 표시 */
   -webkit-box-orient: vertical;
 }
 
@@ -144,6 +196,10 @@ export default {
   border-radius: 0.25em;
   cursor: pointer;
   margin: 5px;
+}
+
+.overview__more-btn-label::before {
+  content: '더보기';
 }
 
 .overview__more-btn:checked + .overview__more-btn-label::before {
@@ -181,5 +237,29 @@ export default {
 .star-ratings-base {
   z-index: 0;
   padding: 0;
+}
+
+.credit_detail {
+  /* display:flex;  */
+  width:1500px; 
+  margin-top:200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.people {
+  display:flex;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 50px;
+  flex:1;
 }
 </style>
