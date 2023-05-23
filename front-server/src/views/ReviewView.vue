@@ -1,7 +1,7 @@
 <template>
   <div style="width: 1100px;">
     <h1>회원님들이 작성한 리뷰</h1>
-    <button @click="goCreate" class="my-5">작성하러 가기</button>
+    <router-link :to="{name:'ReviewCreate'}" class="my-5"><button>작성하러 가기</button></router-link>
     <ul>
       <hr style="border: solid white;">
       <ReviewItem 
@@ -40,13 +40,6 @@ export default {
   methods: {
     getRivews(){
       this.$store.dispatch("getRivews")
-    },
-    goCreate(){
-      if (this.islogin){
-        this.$router.push({name:'ReviewCreate'})
-      }else{
-        this.$router.push({name : 'LoginView'})
-      }
     },
   },
 }
