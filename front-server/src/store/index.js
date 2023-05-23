@@ -90,6 +90,7 @@ export default new Vuex.Store({
         // 로그인전에 이동하려던 페이지로 이동
         if(state.redirectPath!='/'){
           router.push(state.redirectPath||'/')
+          // 이동후 리다이렉트 path 초기화
           commit('SET_REDIRECT_PATH', '/')
         }else{
           router.push({name:'HomeView'})
