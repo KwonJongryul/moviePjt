@@ -43,7 +43,7 @@ export default new Vuex.Store({
       state.redirectPath = path
       console.log(state.redirectPath)
     },
-    GET_ID(state, user){
+    GET_USER(state, user){
       state.user = user
     }
   },

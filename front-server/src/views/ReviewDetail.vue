@@ -86,7 +86,6 @@ export default {
     },
     getUser(){
       this.username = this.$store.state.user.username
-      console.log(this.username)
     },
     reviewDelete(){
       if(!confirm('정말로 삭제하시겠습니까?')){
