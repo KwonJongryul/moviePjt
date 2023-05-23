@@ -34,7 +34,7 @@ export default new Vuex.Store({
     },
     SAVE_TOKEN(state, key){
       state.token = key
-      router.push({name:'HomeView'})
+      // router.push({name:'HomeView'})
     },
     LOGOUT_TOKEN(state){
       state.token = null
@@ -163,7 +163,10 @@ export default new Vuex.Store({
         }
       })
         .then((res) => {
-          context.commit('GET_REVIEWS', res.data.reverse())
+          const reviews = res.data.reverse()
+          if(reviews){
+            context.commit('GET_REVIEWS', reviews)
+          }
         })
         .catch((err) => {
           console.log(err)
