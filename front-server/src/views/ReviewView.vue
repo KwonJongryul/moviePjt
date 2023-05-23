@@ -1,9 +1,16 @@
 <template>
-  <div style="width: 1100px;">
-    <h1>회원님들이 작성한 리뷰</h1>
-    <router-link :to="{name:'ReviewCreate'}" class="my-5"><button>작성하러 가기</button></router-link>
+  <div>
+    <div style="display:flex; width: 1300px;">
+      <p style="margin-bottom:50px; font-size:70px;">회원 리뷰</p>
+      <div style="margin-left:auto;">
+      <router-link :to="{name:'ReviewCreate'}">
+        <button class="btn btn-light">작성하기</button>
+      </router-link>
+      </div>
+    </div>
+
     <ul>
-      <hr style="border: solid white;">
+      <!-- <hr style="border: solid white;"> -->
       <ReviewItem 
       v-for="review in reviews" 
       :key="review.id"

@@ -29,7 +29,7 @@ export default {
       URL : 'https://image.tmdb.org/t/p/original/',
       // 여기 carousel-item active엔 첫번째 사진 무조건 넣어야 해서 
       // GenreItem에 넣을 애들은 잘랐습니다
-      movies : this.genremovies.slice(1)
+      movies : this.genremovies.slice(3)
     }
   },
   components:{
