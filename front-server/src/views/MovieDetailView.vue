@@ -45,12 +45,18 @@
         </div>
 
         <!-- 예고편한번 가져와본다내가 -->
-        <div v-if="!trailer">
-          <iframe width="950" height="500" 
-          :src="`https://www.youtube.com/embed/${ video.results[0].key }`" 
-          frameborder="0" allowfullscreen></iframe>
-        </div>
-        
+        <div v-if="!trailer" style="overflow-y: auto; overflow-x: hidden; height: 500px;">
+
+          <div v-for="video in video.results" :key="video.key">
+            <div v-if="video.type === 'Trailer' && video.official">
+              <iframe width="950" height="500" 
+              :src="`https://www.youtube.com/embed/${ video.key }`" 
+              frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+
+      </div>
+
       </div>
     </div>
 
