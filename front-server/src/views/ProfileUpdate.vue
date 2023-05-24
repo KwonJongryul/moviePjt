@@ -36,7 +36,6 @@
             <span v-if="i!=profile.like_genres.length-1">, </span>
           </span></h4>
         </div>
-        {{ profile.like_genres }}
           <input type="submit" value="변경하기">
     </form>
   </div>
@@ -100,53 +99,30 @@ export default {
       }
     },
     update(){
-      // if(this.ischange){
-      //   this.updateImg()
-      // }
       console.log(this.profile)
       this.updateform()
     },
-    updateImg(){
-      const formData = new FormData()
-      formData.append('image', this.userImg)
-      // 이미지 먼저 업로드
-      axios({
-        method : 'post',
-        url : `${URL}/api/v1/upload/`,
-        data: formData,
-        headers:{
-          Authorization : `Token ${this.$store.state.token}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then((res) => {
-        this.profile.user_img = res.data
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    },
     updateform(){
-      // const user_img = this.profile.user_img
-      // const email = this.profile.email
-      // const One_liner = this.profile.One_liner
-      // const like_genres = [...this.profile.like_genres]
-      // const formData = new FormData()
-      // if (this.ischange){
-      //   formData.append('user_img', user_img)
-      // }
-      // formData.append('email', email)
-      // formData.append('One_liner', One_liner)
-      // formData.append('like_genres', like_genres)
+      const user_img = this.profile.user_img
+      const email = this.profile.email
+      const One_liner = this.profile.One_liner
+      const like_genres = this.profile.like_genres
+      const formData = new FormData()
+      if (this.ischange){
+        formData.append('user_img', user_img)
+      }
+      formData.append('email', email)
+      formData.append('One_liner', One_liner)
+      formData.append('like_genres', like_genres)
+      console.log(like_genres)
       // 이미지 저장, url받고 폼 업데이트
       axios({
-        method : 'put',
+        method : 'patch',
         url : `${URL}/api/v1/getuser/${this.profile.id}/`,
         headers:{
           Authorization : `Token ${this.$store.state.token}`,
-          'Content-Type': 'multipart/form-data'
         },
-        data : this.profile
+        data : formData
       })
       .then(() => {
         alert('저장되었습니다')

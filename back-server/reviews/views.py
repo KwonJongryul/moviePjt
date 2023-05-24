@@ -74,7 +74,7 @@ def get_id(request):
 
 
 # 선택 유저 정보 불러오기
-@api_view(['POST', 'PUT'])
+@api_view(['POST', 'PATCH'])
 @permission_classes([IsAuthenticated])
 def get_user(request, pk):
     USER = get_user_model()
@@ -82,16 +82,21 @@ def get_user(request, pk):
     if request.method == 'POST':
         serializer = UserSerializer(user)
         return Response(serializer.data)
-    elif request.method == 'PUT':
+    elif request.method == 'PATCH':
         user_img = request.FILES.get('user_img')
         if user_img:
             request.data['user_img'] = user_img
-        serializer = UserSerializer(user, data=request.data)
+        # tmp = request.data
+        like_genres = request.data.getlist('like_genres')[0].split(',')
+        # print(tmp,'gmdkfashdlkshfdkjsa')
+        # print(like_genres,'gmdkfashdlkshfdkjsa')
+        serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         print(serializer.errors,'--------------------', serializer.data)
-        # print(request.data)
+        print('-------------------')
+        print(request.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 # 프로필 사진 업로드
