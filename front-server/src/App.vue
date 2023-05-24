@@ -31,7 +31,6 @@
       <router-view/>
     </div>
     <footer style="height: 300px;">
-
     </footer>
   </div>
 </template>

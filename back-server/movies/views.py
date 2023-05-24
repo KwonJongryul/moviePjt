@@ -4,8 +4,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.shortcuts import get_list_or_404, get_object_or_404
-from .models import Movie, Genre
-from .serializers import MoviesSerializer, GenreSerializer
+from .models import Movie, Genre, Comment
+from .serializers import MoviesSerializer, GenreSerializer, CommentSerializer
 from datetime import datetime
 from random import sample
 #이것도 추가했어요
@@ -96,3 +96,15 @@ def movie_like(request, movie_id):
         else:
             movie.like_users.add(request.user)
         return Response(status=status.HTTP_202_ACCEPTED)
+
+# 코멘트 등록
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def comment(request):
+    print(request.data)
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        print(serializer.errors)

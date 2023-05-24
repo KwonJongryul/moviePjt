@@ -11,4 +11,5 @@ urlpatterns = [
     path('genres/', views.get_genres),
     # path추가했어요-yj
     path('movielike/<int:movie_id>/', views.movie_like),
+    path('comment/', views.comment),
 ]

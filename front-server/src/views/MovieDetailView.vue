@@ -68,35 +68,39 @@
       <hr style="border:3px solid white;">
       <h1 class="mb-4">감독</h1>
       <div class="people">
-      <div v-for="crew in credits.crew" :key="crew.id">
-        <div v-if="crew.job === 'Director'" class="person">
-          <img :src="'https://image.tmdb.org/t/p/original' + crew.profile_path" 
-          style="width:150px; height:200px;"
-          alt="Director">
-          <p style="font-size:20px; margin-bottom:0">{{ crew.name }}</p>
-          <p style="font-size:17px; color:gray">{{ crew.job }}</p>
+        <div v-for="crew in credits.crew" :key="crew.id">
+          <div v-if="crew.job === 'Director'" class="person">
+            <img :src="'https://image.tmdb.org/t/p/original' + crew.profile_path" 
+            style="width:150px; height:200px;"
+            alt="Director">
+            <p style="font-size:20px; margin-bottom:0">{{ crew.name }}</p>
+            <p style="font-size:17px; color:gray">{{ crew.job }}</p>
+          </div>
         </div>
-      </div>
       </div>
       <h1 class="mb-4">출연</h1>
       <div class="people">
-      <div v-for="(cast, index) in credits.cast" :key="cast.id">
-        <div v-if="cast.known_for_department === 'Acting' && index < 7" class="person">
-          <img :src="'https://image.tmdb.org/t/p/original' + cast.profile_path" 
-          style="width:150px; height:200px;">
-          <p style="font-size:20px; margin-bottom:0;">{{ cast.name }}</p>
+        <div v-for="(cast, index) in credits.cast" :key="cast.id">
+          <div v-if="cast.known_for_department === 'Acting' && index < 7" class="person">
+            <img :src="'https://image.tmdb.org/t/p/original' + cast.profile_path" 
+            style="width:150px; height:200px;">
+            <p style="font-size:20px; margin-bottom:0;">{{ cast.name }}</p>
           <p style="font-size:17px; color:gray">{{ cast.character }} 역</p>
         </div>
       </div>
-      </div>
     </div>
+    <hr style="border:3px solid white;">
+    <MovieComment :movie="movie"/>
   </div>
+
+  <footer style="height: 300px;"></footer>
+</div>
 </template>
 
 <script>
 import axios from 'axios'
 import LikeMovie from "@/components/LikeMovie"
-
+import MovieComment from '@/components/MovieComment'
 export default {
   name : 'MovieDetailView',
   data(){
@@ -109,7 +113,8 @@ export default {
     }
   },
   components :{
-    LikeMovie
+    LikeMovie,
+    MovieComment
   },
   computed : {
     ratingToPercent(){
