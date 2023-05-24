@@ -2,9 +2,11 @@
   <div>
     <div class="search-container">
       <input type="text" v-model="search_movie" 
-      @keydown.enter="getSearchMovie" class="search_input" 
+      @keydown.enter="enterSearch" class="search_input" 
       placeholder="검색어를 입력하세요">
-      <button @click="getSearchMovie" class="search-button">🔍︎</button>
+      <router-link :to="{ name: 'SearchView', params: { word: search_movie } }">
+        <button @click="getSearchMovie" class="search-button">🔍︎</button>
+      </router-link>
     </div>
     
     <div class="search-container" style="font-size:20px;">
@@ -47,6 +49,13 @@ export default {
       search_results: null,
     }
   },
+  created() {
+    const { word } = this.$route.params;
+    if (word) {
+      this.search_movie = word;
+      this.getSearchMovie()
+    }
+  },
   methods: {
     getSearchMovie(){
       axios({
@@ -68,7 +77,14 @@ export default {
       .catch((err)=>{
         console.log(err)
       })
-    }
+    },
+    enterSearch() {
+      // const keyword = this.search_movie.trim();
+      //   if (keyword) {
+      this.$router.push(`/searchlist/${this.search_movie}`);
+      this.getSearchMovie()
+        // }
+    },
   },
 }
 </script>

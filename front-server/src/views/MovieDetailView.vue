@@ -45,8 +45,7 @@
         </div>
 
         <!-- 예고편한번 가져와본다내가 -->
-        <div v-if="!trailer" style="overflow-y: auto; overflow-x: hidden; height: 500px;">
-
+        <div v-if="!trailer" class="trailer">
           <div v-for="video in video.results" :key="video.key">
             <div v-if="video.type === 'Trailer' && video.official">
               <iframe width="950" height="500" 
@@ -54,8 +53,7 @@
               frameborder="0" allowfullscreen></iframe>
             </div>
           </div>
-
-      </div>
+        </div>
 
       </div>
     </div>
@@ -314,5 +312,25 @@ export default {
   margin-right: 60px;
   flex:1;
   width:150px;
+}
+
+.trailer {
+  overflow-y: auto; 
+  overflow-x: hidden; 
+  height: 500px;
+}
+
+::-webkit-scrollbar {
+      width: 10px; /* 스크롤바 너비 */
+      background-color: #474747; /* 스크롤바 배경색 */
+    }
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* 스크롤바 색상 */
+  border-radius: 5px; /* 스크롤바 모양 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(189, 189, 189); /* 스크롤바 hover 시 색상 */
 }
 </style>
