@@ -8,6 +8,9 @@ from .models import Movie, Genre
 from .serializers import MoviesSerializer, GenreSerializer
 from datetime import datetime
 from random import sample
+#이것도 추가했어요
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 # 로그인 안했을땐 최신영화 보여주기 위한 뷰(홈 큰공간)
 @api_view(['GET'])
@@ -81,3 +84,15 @@ def get_genres(request):
     genres = get_list_or_404(Genre)
     serializer = GenreSerializer(genres, many=True)
     return Response(serializer.data)
+
+#영화 좋아요 추가
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def movie_like(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    if movie:
+        if movie.like_users.filter(pk=request.user.pk).exists():
+            movie.like_users.remove(request.user)
+        else:
+            movie.like_users.add(request.user)
+        return Response(status=status.HTTP_202_ACCEPTED)

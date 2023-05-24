@@ -9,4 +9,6 @@ urlpatterns = [
     path('movies/era/<str:era>', views.movies_era),
     path('movies/all/', views.movies_all),
     path('genres/', views.get_genres),
+    # path추가했어요-yj
+    path('movielike/<int:movie_id>/', views.movie_like),
 ]

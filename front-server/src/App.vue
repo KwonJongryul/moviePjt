@@ -12,7 +12,7 @@
         <router-link :to="{ name: 'SearchView' }" class="nav-link navfont" :class="{ 'active': $route.name === 'SearchView'}">Search</router-link>
         </div>
 
-        <div style="display:flex; justify-content: center; align-items:center;">
+        <div v-if="$route.name !== 'SearchView'" style="display:flex; justify-content: center; align-items:center;">
         <input type="text" v-model="search_movie" class="main_search"
         @keydown.enter="searchMovies" placeholder="검색어를 입력해 주세요.">
         <button @click="searchMovies" class="main_search_button">🔍︎</button>
@@ -64,7 +64,7 @@ export default{
       // if (this.$route.path === '/searchlist') {
       // return; // 중복된 네비게이션을 피하기 위해 네비게이션을 수행하지 않음
       // }
-      this.$router.push({ name: 'SearchView', query: { search: this.search_movie } });
+      this.$router.push({ name: 'SearchView', params: { search: this.search_movie } });
       this.search_movie = null
     },
     updateUser() {

@@ -28,7 +28,7 @@
         </router-link>
 
         <h5 class="card-title" 
-        style="width:300px; height:60px; text-align: center; font-size:15px; 
+        style="width:300px; height:60px; text-align: center; font-size:20px; 
         display:flex; justify-content:center; align-items:center; padding:15px; color:black;">
         {{ movie.title }}</h5>
         </div>

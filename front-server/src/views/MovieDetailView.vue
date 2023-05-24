@@ -42,8 +42,12 @@
             </div>
             <h5 style="margin: 0 0 -30px 10px;">전체 평점 {{ this.movie.vote_average / 2 }} ( {{ movie.vote_count }} )</h5>
           </div>
-        </div>
 
+          <div style="display:flex; align-items: center; justify-content: end;">
+            <LikeMovie :movie="movie"/>
+          </div>
+        </div>
+        
         <!-- 예고편한번 가져와본다내가 -->
         <div v-if="!trailer" class="trailer">
           <div v-for="video in video.results" :key="video.key">
@@ -54,9 +58,10 @@
             </div>
           </div>
         </div>
-
+        
       </div>
     </div>
+    
 
     <!-- 여기서부터는 credit입니다 -->
     <div class="credit_detail">
@@ -85,14 +90,12 @@
       </div>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-// import CreditMovie from "@/components/CreditMovie"
+import LikeMovie from "@/components/LikeMovie"
 
 export default {
   name : 'MovieDetailView',
@@ -105,9 +108,9 @@ export default {
       buttonText : '예고편 보러가기'
     }
   },
-  // components :{
-  //   CreditMovie
-  // },
+  components :{
+    LikeMovie
+  },
   computed : {
     ratingToPercent(){
       const score = +this.movie.vote_average * 10
