@@ -92,10 +92,13 @@ export default {
       })
     },
     pick_genre(e){
-      if(!this.profile.like_genres.includes(e.target.value) && this.profile.like_genres.length < 3){
-        this.profile.like_genres.push(e.target.value)
-      }else{
-        this.profile.like_genres = this.profile.like_genres.filter((element) => element !== e.target.value)
+      console.log(this.profile.like_genres.includes(Number(e.target.value)))
+      console.log(e.target.value)
+      if(!this.profile.like_genres.includes(Number(e.target.value)) && this.profile.like_genres.length < 3){
+        this.profile.like_genres.push(Number(e.target.value))
+      }else if(this.profile.like_genres.includes(Number(e.target.value))){
+        this.profile.like_genres = this.profile.like_genres.filter((element) => element !== Number(e.target.value))
+        console.log(this.profile)
       }
     },
     update(){
@@ -113,7 +116,9 @@ export default {
       }
       formData.append('email', email)
       formData.append('One_liner', One_liner)
-      formData.append('like_genres', like_genres)
+      like_genres.forEach(genre => {
+        formData.append('like_genres', genre);
+      });
       console.log(like_genres)
       // 이미지 저장, url받고 폼 업데이트
       axios({
@@ -126,6 +131,7 @@ export default {
       })
       .then(() => {
         alert('저장되었습니다')
+        this.$store.dispatch('getUser')
         this.$router.push({name:'ProfileView', params:{id:this.profile.id}})
       })
       .catch((err) => {

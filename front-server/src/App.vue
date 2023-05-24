@@ -40,13 +40,16 @@ export default{
   data(){
     return {
       search_movie:null,
-      user : this.$store.state.user,
+      // user : this.$store.state.user,
       URL : 'http://127.0.0.1:8000'
     }
   },
   computed:{
     islogin(){
       return this.$store.getters.islogin
+    },
+    user(){
+      return this.$store.state.user
     }
   },
   created() {

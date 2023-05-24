@@ -32,8 +32,8 @@
       <h3>E-mail</h3>
       <h4 v-if="user?.email">{{ user?.email }}</h4>
       <h4 v-else class="mt-3 mb-5">이메일이 없습니다.</h4>
-      <h4>선호 장르 : <span v-if="user?.like_genres.length>0">{{ user.like_genres }}</span>
-      <span v-else>아직 선택된 장르가 없어요!</span>
+      <h4 class="mt-5">선호 장르 : <span v-for="(genre, i) in genreNames" :key="genre.id">{{ genre }}<span v-if="i<genreNames.length-1">, </span></span>
+      <span v-if="!genreNames">아직 선택된 장르가 없어요!</span>
       </h4>
     </div>
   </div>
@@ -50,13 +50,32 @@ export default {
     return {
       user : null,
       url : URL,
-      now_user : this.$store.state.user?.id
+      now_user : this.$store.state.user?.id,
+      genres : null,
+      genreNames : []
     }
   },
+  computed:{
+  },
   created(){
+    this.getGenres()
     this.getUser()
   },
+  mounted(){
+  },
   methods:{
+    getGenreNames(){
+      const arr = []
+      console.log('???????', this.user)
+      for(const i of this.user.like_genres){
+        for(const j of this.genres){
+          if(i==j.id){
+            arr.push(j.name)
+          }
+        }
+      }
+      this.genreNames = arr
+    },
     getUser(){
       axios({
         method:'post',
@@ -68,6 +87,19 @@ export default {
       .then((res) => {
         this.user = res.data
         console.log(this.user)
+        this.getGenreNames()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getGenres(){
+      axios({
+        method : 'get',
+        url : `${URL}/api/v1/genres/`
+      })
+      .then((res) => {
+        this.genres = res.data
       })
       .catch((err) => {
         console.log(err)
