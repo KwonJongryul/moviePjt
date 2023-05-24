@@ -1,38 +1,46 @@
 <template>
-  <div>
-    <h1 class="mb-5">리뷰 상세 페이지</h1>
-    <div class="d-flex justify-content-center">
-      <img :src="`https://image.tmdb.org/t/p/w500/${imgUrl}`" alt="이미지 준비중입니다" style="width: 300px;" class="me-5">
-      <div>
-        <h3>
-          <span>제목 : {{ review?.title }}</span>&nbsp;&nbsp;&nbsp;
-          <span>작성자 : {{ review?.username }}</span>
-        </h3>
-        <h3>{{ title }}</h3>
-        <p>
-          <span>작성일 : {{ review?.created_at.slice(0, 10)}}</span>
-        </p>
-        <p>
-          <span>감상일 : {{ review?.watch_date}}</span>
-        </p>
+  <div class="review_box" style="width:1100px;">
+    <h1 class="mb-2">{{ review?.title }}</h1>
+    <div class="row">
+      <div class="col-md-5">
         <p id="like" @click="like">
-          <span>👍 : {{ likeUsers }}</span>
+          <span v-if="liked">❤️</span>
+          <span v-else>🤍</span>
         </p>
-        <p>
-          <span>평점 : {{ '⭐'.repeat(parseInt(review?.vote/2)) }}</span>
-        </p>
-        <p>
-          <span>{{ review?.context }}</span>
-        </p>
-        <p>
-          <span>함께 본 사람 : {{ review?.watch_with }}</span>
-        </p>
-        <p>
-          <span>명대사 : {{ review?.watch_with }}</span>
-        </p>
-        <router-link :to="{name:'review'}"><button>목록으로</button></router-link>&nbsp;
-        <router-link :to="{name:'ReviewUpdate', params: { id : review.id }}" v-if="review?.username===username"><button>수정하기</button></router-link>&nbsp;
-        <button @click="reviewDelete" v-if="review?.username===username">삭제하기</button>
+        <p style="font-size:20px; display:inline">{{ likeUsers }}명이 좋아하는 리뷰</p>
+      </div>
+      <div class="col-md-7" style="text-align:right; margin-bottom:50px;">
+        <h5 style="color:rgb(102, 102, 102); margin-bottom:30px;">
+        작성일 : {{ review?.created_at.slice(0, 10)}}</h5>
+        <router-link :to="{name:'review'}">
+          <button class="btn btn-light">목록으로</button></router-link>&nbsp;
+        <router-link :to="{name:'ReviewUpdate', params: { id : review.id }}" v-if="review?.username===username">
+          <button class="btn btn-secondary">수정하기</button></router-link>&nbsp;
+        <button @click="reviewDelete" v-if="review?.username===username"
+          class="btn btn-danger">
+          삭제하기</button>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4">
+        <router-link :to="{ name: 'MovieDetailView', params: { id: review.movie}}">
+          <img :src="`https://image.tmdb.org/t/p/w500/${imgUrl}`" 
+          style="width:100%;"
+          alt="이미지 준비중입니다">
+        </router-link>
+        <p style="margin-top:10px; text-align:center;">{{ title }}</p>
+      </div>
+      <div class="col-md-8">
+        <h3>{{ review?.username }}님의 평점 {{ '⭐'.repeat(parseInt(review?.vote/2)) }}</h3>
+        <h5 style="margin-top:30px;">{{ review?.watch_date}}에</h5>
+        <h5>{{ review?.watch_with}}님과 함께 감상했어요</h5>
+        <!-- <h3>{{ title }}</h3> -->
+        <!-- <h5> 감상일 : {{ review?.watch_date}}</h5> -->
+        <p class="review_content">{{ review?.context }}</p>
+        <!-- <h5>{{ review?.watch_with }}와 함께 봤어요</h5> -->
+        <h5 style="margin-top:30px;">기억에 남는 대사</h5>
+        <h5 class="daesa">"{{ review?.quotes }}"</h5>
       </div>
     </div>
   </div>
@@ -50,6 +58,7 @@ export default {
       username : null,
       imgUrl : null,
       title : null,
+      liked: false,
     }
   },
   computed:{
@@ -125,6 +134,7 @@ export default {
         .catch((err) =>  {
           console.log(err)
         })
+      this.liked = !this.liked;
     },
     getImg(){
       axios({
@@ -147,5 +157,30 @@ export default {
 <style>
   #like{
     cursor: pointer;
+    font-size: 60px;
+    display:inline;
+    color: rgb(253, 44, 44);
+  }
+  .review_content {
+    background-color:rgba(255, 255, 255, 0.842);
+    padding:15px;
+    color:black;
+    border-radius: 5px;
+    margin-top:40px;
+  }
+
+  .daesa {
+    background-color:rgba(180, 180, 180, 0.897);
+    padding:15px;
+    color:black;
+    border-radius: 5px;
+  }
+
+  .review_box {
+    background-color:rgba(255, 255, 255, 0.808);
+    border-radius: 20px;
+    padding:20px;
+    color:black;
+
   }
 </style>

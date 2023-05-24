@@ -1,42 +1,67 @@
 <template>
   <div>
+
     <form @submit.prevent="update">
-      <p>
-        <label for="title"><strong>제목</strong></label>
-        <input type="text" v-model.trim="title" id="title">
-      </p>
-      <p>
-        <label for="movies"><strong>영화 </strong></label>
-        <select id="movieSelect" style="width: 250px;">
-          <option value="">영화를 선택해 주세요!</option>
-          <option v-for="movie in movies" :key="movie.id" :value="movie.id">{{ movie.title }}</option>
-        </select>
-      </p>
-      <p>
-        <label for="date"><strong>감상날짜</strong></label>
-        <input type="date" v-model="watch_date" id="date">
-      </p>
-      <p>
-        <label for="vote"><strong>내 평점</strong></label>
-        <input type="range" v-model="vote" id="vote" min="0" max="10" step="0.5">
-      </p>
-      <p>
-        <label for="context"><strong>내용</strong></label><br>
-        <textarea cols="30" rows="10" v-model="context" id="context"></textarea>
-      </p>
-      <p>
-        <label for="quotes"><strong>명대사를 적어주세요!</strong></label><br>
-        <input type="text" v-model.trim="quotes" id="quotes">
-      </p>
-      <p>
-        <label for="watch_with"><strong>누구랑 보셨나요?</strong></label><br>
-        <input type="text" v-model.trim="watch_with" id="watch_with">
-      </p>
-      
-      <p>
-        <input type="submit" value="수정하기">
-      </p>
-    </form>
+    <div class="review_box" style="width:1100px;">
+      <!-- <h1 class="mb-2">{{ review?.title }}</h1> -->
+      <!-- <label for="title"><strong>제목</strong></label> -->
+      <h1>
+        <input type="text" v-model.trim="title" id="title" 
+        class="input_r" placeholder="제목">
+      </h1>
+    
+    <div class="row">
+      <div class="col-md-4">
+        <p style="margin-top:10px; text-align:center;">
+          <!-- <label for="movies"><strong>영화 </strong></label> -->
+          <!-- <select class="movieSelect" style="width: 250px;">
+            <option value="">영화를 선택해 주세요!</option>
+            <option v-for="movie in movies" :key="movie.id" :value="movie.id">{{ movie.title }}</option>
+          </select> -->
+          <select id="movieSelect" style="width: 250px;">
+            <option value="">영화를 선택해 주세요!</option>
+            <option v-for="movie in movies" :key="movie.id" :value="movie.id">{{ movie.title }}</option>
+          </select>
+          {{ movie_info }}
+          <!-- <img :src="`https://image.tmdb.org/t/p/w500/${ movie_url }`" 
+          alt="이미지 준비중입니다."> -->
+        </p>
+      </div>
+
+      <div class="col-md-8">
+        <div>
+          <h5>
+            <label for="vote" style="margin-right:10px;">평점</label>
+              <input type="range" v-model="vote" id="vote" 
+              class="my-3" min="0" max="10" step="0.5">
+              {{ '⭐'.repeat(parseInt(review?.vote/2)) }}
+          </h5>
+        </div>
+        <h5>
+          <input class="input_r" type="date" v-model="watch_date" id="date">
+          에
+        </h5>
+        <h5>
+          <input class="input_r" type="text" v-model.trim="watch_with" id="watch_with">
+          님과 함께 감상했어요
+        </h5>
+
+        <p class="review_content">
+          <textarea class="input_r" cols="30" rows="10" v-model="context" id="context"></textarea>
+        </p>
+        <!-- <h5>{{ review?.watch_with }}와 함께 봤어요</h5> -->
+        <h5 style="margin-top:30px;">기억에 남는 대사</h5>
+        <h5 class="daesa">"
+          <input class="input_r" type="text" style="width:640px;"
+          v-model.trim="quotes" id="quotes">"</h5>
+        
+        <div class="d-grid gap-2 col-6 mx-auto my-4">
+          <button type="submit" class="btn btn-primary">작성하기</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </form>
   </div>
 </template>
 
@@ -85,6 +110,7 @@ export default {
     });
     // $('#movieSelect').on('change',function(event){ console.log(event.target.value) })
     $('#movieSelect').on('change', this.updateMovie)
+
   },
   created() {
     this.moviesAll()
