@@ -3,7 +3,7 @@
     <nav class="nav navbar navbar-expand-lg fixed-top">
       <div class="container-fluid">
         <router-link :to="{ name: 'HomeView' }">
-          <img src="./assets/N.png" width="40px">
+          <img src="./assets/CGB.png" width="80px">
         </router-link>
 
         <div style="margin-right:auto; display:flex;">
@@ -30,6 +30,9 @@
     <div class="d-flex justify-content-center" style="margin-top: 100px;">
       <router-view/>
     </div>
+    <footer style="height: 300px;">
+
+    </footer>
   </div>
 </template>
 <script>

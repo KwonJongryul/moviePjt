@@ -11,7 +11,12 @@
       </div>
       <div class="col-md-7" style="text-align:right; margin-bottom:50px;">
         <h5 style="color:rgb(102, 102, 102); margin-bottom:30px;">
-        작성일 : {{ review?.created_at.slice(0, 10)}}</h5>
+          <span class="me-5" style="cursor: pointer;" @click="goProfile">
+            작성자 : &nbsp;
+            <img :src="`${url+user_img}`" alt="프로필 사진" id="userProfile">&nbsp;&nbsp;
+            {{ review?.username }}</span>
+          <span>작성일 : {{ review?.created_at.slice(0, 10)}}</span>
+        </h5>
         <router-link :to="{name:'review'}">
           <button class="btn btn-light">목록으로</button></router-link>&nbsp;
         <router-link :to="{name:'ReviewUpdate', params: { id : review.id }}" v-if="review?.username===username">
@@ -58,7 +63,9 @@ export default {
       username : null,
       imgUrl : null,
       title : null,
-      liked: false,
+      // liked: false,
+      user_img : null,
+      url : URL
     }
   },
   computed:{
@@ -67,6 +74,12 @@ export default {
         return this.review.like_users.length
       }
       return 0
+    },
+    liked(){
+      if(this.review.like_users.includes(this.$store.state.user.id)){
+        return true
+      }
+      return false
     }
   },
   created(){
@@ -88,6 +101,7 @@ export default {
       .then((res) => {
         this.review = res.data
         this.getImg()
+        this.getUserImg()
       })
       .catch((err) => {
         console.log(err)
@@ -134,7 +148,6 @@ export default {
         .catch((err) =>  {
           console.log(err)
         })
-      this.liked = !this.liked;
     },
     getImg(){
       axios({
@@ -149,6 +162,24 @@ export default {
       .catch((err) => {
         console.log(err)
       })
+    },
+    getUserImg(){
+      axios({
+        method:'post',
+        url: `${URL}/api/v1/getuser/${this.review.user}/`,
+        headers:{
+          Authorization : `Token ${this.$store.state.token}`
+        }
+      })
+      .then((res) => {
+        this.user_img = res.data.user_img
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    goProfile(){
+      this.$router.push({name:'ProfileView', params : {id:this.review?.user}})
     }
   }
 }
@@ -181,6 +212,10 @@ export default {
     border-radius: 20px;
     padding:20px;
     color:black;
-
+  }
+  #userProfile{
+  width: 50px;
+  height: 50px;
+  clip-path: circle(50%); /* 가로 길이를 반지름으로 사용 */
   }
 </style>

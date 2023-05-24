@@ -36,7 +36,12 @@
               <p class="card-text" style="text-align:right; color:gray;">
                 {{ review.created_at.slice(0, 10) }}</p>
               
-              <p class="card-text">"{{ title }}"에 대한 {{ review.username }}님의 후기</p>
+              <p class="card-text">"{{ title }}"에 대한 
+                <strong>
+                  {{ review.username }}
+                  <img :src="`${url+user_img}`" alt="프로필 사진" id="userProfile">&nbsp;
+                </strong>
+                  님의 후기</p>
               <h1 class="card-title">{{ review.title }}</h1>
               <p class="card-text" style="text-align:right;">
                 {{ review.username }}님의 평점 {{ '⭐'.repeat(parseInt(review?.vote/2)) }}</p>
@@ -46,19 +51,22 @@
           </div>
         </div>
       </div>
-
     </li>
   </router-link>
 </template>
 
 <script>
 import axios from "axios"
+
+const URL = 'http://127.0.0.1:8000'
 export default {
   name: 'ReviewItem',
   data (){
     return {
       imgUrl : null,
-      title  : null
+      title  : null,
+      user_img : null,
+      url : URL
     }
   },
   props:{
@@ -68,6 +76,7 @@ export default {
   },
   created(){
     this.getImg()
+    this.getUserImg()
   },
   methods : {
     getImg(){
@@ -78,10 +87,29 @@ export default {
       .then((res) => {
         this.imgUrl = res.data.poster_path
         this.title = res.data.title
+        this.getUserImg()
       })
       .catch((err) => {
         console.log(err)
       })
+    },
+    getUserImg(){
+      axios({
+        method:'post',
+        url: `${URL}/api/v1/getuser/${this.review.user}/`,
+        headers:{
+          Authorization : `Token ${this.$store.state.token}`
+        }
+      })
+      .then((res) => {
+        this.user_img = res.data.user_img
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    goProfile(){
+      this.$router.push({name:'ProfileView', params : {id:this.review?.user}})
     }
   }
 }

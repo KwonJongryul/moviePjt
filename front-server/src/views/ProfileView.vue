@@ -45,6 +45,7 @@
   </div>
   <div style="border: solid 1px brown;" class=" mt-4 p-3"
   v-if="changeForm" >
+  <form @submit.prevent="changePassword">
     <div>
       <span style="margin: auto 0;">새 비밀번호 : </span><input type="password" v-model="new_password1"><br>
     </div>
@@ -59,7 +60,9 @@
         비밀번호가 일치합니다!
       </span>
     </div>
-    <button class="mt-5" @click="changePassword">변경하기</button>
+    <input type="submit" class="mt-5 me-3" @click="changePassword" value="변경하기">
+    <button @click="changeForms">취소하기</button>
+  </form>
   </div>
 </div>
 
@@ -93,7 +96,6 @@ export default {
   methods:{
     getGenreNames(){
       const arr = []
-      console.log('???????', this.user)
       for(const i of this.user.like_genres){
         for(const j of this.genres){
           if(i==j.id){
@@ -113,7 +115,6 @@ export default {
       })
       .then((res) => {
         this.user = res.data
-        console.log(this.user)
         this.getGenreNames()
       })
       .catch((err) => {
@@ -136,20 +137,18 @@ export default {
       this.$router.push({name:'ProfileUpdate', params:{id:this.$route.params.id}})
     },
     changeForms(){
-      this.changeForm = true
+      this.changeForm = !this.changeForm
     },
     changePassword(){
-      const password1 = this.password1
-      const password2 = this.password2
+      const new_password1 = this.new_password1
+      const new_password2 = this.new_password2
       axios({
         method : 'post',
         url : `${URL}/accounts/password/change/`,
         headers : {
           Authorization : `Token ${this.$store.state.token}`
         },
-        data : {
-          
-        }
+        data : { new_password1, new_password2 }
       })
       .then(() => {
         alert('변경되었습니다')

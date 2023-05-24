@@ -16,7 +16,7 @@
         <input type="email" v-model="profile.email">
       </div>
       <div class="items">
-        <p>선호 장르를 선택해 주세요</p>
+        <p>선호 장르를 선택해 주세요 (최대 3개)</p>
         <span v-for="(genre, i) in genres" :key="genre.id">
           <button 
           @click="pick_genre" 
@@ -103,6 +103,10 @@ export default {
     },
     update(){
       console.log(this.profile)
+      if (this.profile.like_genres < 1){
+        alert('장르를 1개이상 선택해 주세요')
+        return
+      }
       this.updateform()
     },
     updateform(){
@@ -114,6 +118,7 @@ export default {
       if (this.ischange){
         formData.append('user_img', user_img)
       }
+      this.ischange = false
       formData.append('email', email)
       formData.append('One_liner', One_liner)
       like_genres.forEach(genre => {

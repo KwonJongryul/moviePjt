@@ -20,7 +20,6 @@ def review_list(request):
     if request.method == 'GET':
         reviews = get_list_or_404(Review)
         serializer = ReviewListSerializer(reviews, many=True)
-        print(serializer)
         return Response(serializer.data)
     
     elif request.method == 'POST':
