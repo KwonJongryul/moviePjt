@@ -8,4 +8,5 @@ urlpatterns = [
     path('movies/option/<str:keyword>/', views.movies_option),
     path('movies/era/<str:era>', views.movies_era),
     path('movies/all/', views.movies_all),
+    path('genres/', views.get_genres),
 ]

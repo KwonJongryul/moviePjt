@@ -11,7 +11,6 @@ class Review(models.Model):
     vote = models.FloatField(validators=[MinValueValidator(1), MaxValueValidator(10)])
     context = models.TextField()
     
-    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     watch_date = models.DateField(auto_now=True)

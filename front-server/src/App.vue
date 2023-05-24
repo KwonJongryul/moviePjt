@@ -50,6 +50,7 @@ export default{
     }
   },
   created() {
+    this.updateUser()
   },
   methods: {
     logout(){
@@ -65,7 +66,10 @@ export default{
       // }
       this.$router.push({ name: 'SearchView', query: { search: this.search_movie } });
       this.search_movie = null
-    }
+    },
+    updateUser() {
+      this.user = this.$store.state.user
+    },
   },
 }
 </script>

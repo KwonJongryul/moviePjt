@@ -7,4 +7,5 @@ urlpatterns = [
     path('like/<int:review_pk>/', views.review_like),
     path('getid/', views.get_id),
     path('getuser/<int:pk>/', views.get_user),
+    path('upload/', views.upload_img),    
 ]

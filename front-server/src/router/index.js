@@ -66,7 +66,7 @@ const routes = [
     component: ProfileView
   },
   {
-    path: '/profile/:id',
+    path: '/profile/:id/update',
     name: 'ProfileUpdate',
     component: ProfileUpdate
   },

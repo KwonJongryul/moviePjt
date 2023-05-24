@@ -67,7 +67,9 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ],
-
+    'DEFAULT_PARSER_CLASSES': [
+    'rest_framework.parsers.MultiPartParser',  # 파일 업로드를 위한 MultiPartParser 추가
+    ],
 #     # spectacular Settings
 #     # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 # }

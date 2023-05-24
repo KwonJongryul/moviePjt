@@ -17,6 +17,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         read_only_fields = ('user', )
         
 class UserSerializer(serializers.ModelSerializer):
+    user_img = serializers.ImageField(required=False)
     class Meta :
         model = get_user_model()
         fields = '__all__'
