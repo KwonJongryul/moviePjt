@@ -86,6 +86,7 @@ def get_id(request):
 @api_view(['POST', 'PATCH'])
 @permission_classes([IsAuthenticated])
 def get_user(request, pk):
+
     USER = get_user_model()
     user = get_object_or_404(USER, pk=pk)
     if request.method == 'POST':
