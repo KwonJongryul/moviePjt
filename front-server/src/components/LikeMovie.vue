@@ -19,7 +19,7 @@ export default {
     }
   },
   props: {
-    movie: Object
+    movie: Array
   },
   methods:{
     like(){

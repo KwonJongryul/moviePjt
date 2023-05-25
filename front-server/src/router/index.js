@@ -81,7 +81,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const isLoggedIn = store.getters.islogin
-  const authPasges = ['ReviewCreate', 'ReviewDetail', 'ReviewUpdate']
+  const authPasges = ['ReviewCreate', 'ReviewDetail', 'ReviewUpdate', 'ProfileView']
   const isAuthReqired = authPasges.includes(to.name)
   if (isAuthReqired && !isLoggedIn){
     alert('로그인이 필요한 페이지입니다')

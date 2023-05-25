@@ -52,7 +52,7 @@ class Comment(models.Model):
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_comment', blank=True)
 
 class Recomment(models.Model):
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='recomments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     context = models.TextField()
     

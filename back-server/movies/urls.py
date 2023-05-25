@@ -12,4 +12,8 @@ urlpatterns = [
     # path추가했어요-yj
     path('movielike/<int:movie_id>/', views.movie_like),
     path('comment/', views.comment),
+    path('comment/<int:pk>', views.get_comment),
+    path('comment/like/<int:pk>/', views.comment_like),
+    path('recomment/', views.recomment),
+    path('recomment/<int:pk>/', views.recomment_get),
 ]

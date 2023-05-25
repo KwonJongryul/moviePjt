@@ -20,14 +20,12 @@
           </select> -->
           <select id="movieSelect" style="width: 250px;">
             <option value="">영화를 선택해 주세요!</option>
-            <option v-for="movie in movies" :key="movie.id" :value="movie.id">{{ movie.title }}</option>
+            <option v-for="movie in movies" :key="movie.id" :value="movie.id+','+movie.poster_path">{{ movie.title }}</option>
           </select>
-          {{ movie_info }}
-          <!-- <img :src="`https://image.tmdb.org/t/p/w500/${ movie_url }`" 
-          alt="이미지 준비중입니다."> -->
+          <img v-if="movie_img" :src="`https://image.tmdb.org/t/p/w500/${ movie_img }`" 
+          alt="이미지 준비중입니다." width="300px" style="margin-top: 80px;">
         </p>
       </div>
-
       <div class="col-md-8">
         <div>
           <h5>
@@ -87,7 +85,8 @@ export default {
       movie : this.review.movie,
       vote : this.review.vote,
       watch_with : this.review.watch_with,
-      movies : null
+      movies : null,
+      movie_img : null,
     }
   },
   mounted() {
@@ -168,7 +167,24 @@ export default {
       })
     },
     updateMovie(event){
-      this.movie = event.target.value
+      const tmp = event.target.value.split(',')
+      this.movie = tmp[0]
+      this.movie_img = tmp[1]
+      // this.movie = event.target.value
+      // console.log(event.target.value)
+      this.getReviewImg()
+    },
+    getReviewImg(){
+      axios({
+        method : 'get',
+        url : `${URL}/api/v1/movies/${this.movie_img}/`
+      })
+      .then((res) => {
+        this.movie_info=res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   },
 }

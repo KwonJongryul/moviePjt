@@ -4,8 +4,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.shortcuts import get_list_or_404, get_object_or_404
-from .models import Movie, Genre, Comment
-from .serializers import MoviesSerializer, GenreSerializer, CommentSerializer
+from .models import Movie, Genre, Comment, Recomment
+from .serializers import MoviesSerializer, GenreSerializer, CommentSerializer, ReCommentSerializer
 from datetime import datetime
 from random import sample
 #이것도 추가했어요
@@ -108,3 +108,54 @@ def comment(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         print(serializer.errors)
+        
+# 코멘트 불러오기(로그인 필요없이도 보게하기 위해 따로 작성)
+@api_view(['GET', 'PUT', 'DELETE'])
+def get_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+    elif request.method == 'DELETE':
+        comment.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+# 코멘트 좋아요
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def comment_like(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if comment.like_users.filter(pk=request.user.pk).exists():
+        comment.like_users.remove(request.user)
+    else:
+        comment.like_users.add(request.user)
+    return Response(status=status.HTTP_202_ACCEPTED)
+
+
+# 대댓글 등록
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def recomment(request):
+    serializer = ReCommentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        print(serializer.errors)
+
+# 단일 대댓글 불러오기, 삭제
+@api_view(['GET', 'DELETE'])
+def recomment_get(request, pk):
+    recomment = get_object_or_404(Recomment, pk=pk)
+    if request.method == 'GET':
+        serializer = ReCommentSerializer(recomment)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    elif request.method == 'DELETE':
+        recomment.delete()
+        return Response(status=status.HTTP_202_ACCEPTED)
