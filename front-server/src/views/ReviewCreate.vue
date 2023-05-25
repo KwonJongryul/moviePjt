@@ -17,7 +17,6 @@
             <option value="">영화를 선택해 주세요!</option>
             <option v-for="movie in movies" :key="movie.id" :value="movie.id+','+movie.poster_path">{{ movie.title }}</option>
           </select>
-
           <img v-if="movie_img" :src="`https://image.tmdb.org/t/p/w500/${ movie_img }`" 
           alt="이미지 준비중입니다." width="300px" style="margin-top: 80px;">
         </p>

@@ -17,8 +17,9 @@
             {{ review?.username }}</span>
           <span>작성일 : {{ review?.created_at.slice(0, 10)}}</span>
         </h5>
-        <router-link :to="{name:'review'}">
-          <button class="btn btn-light">목록으로</button></router-link>&nbsp;
+          <button class="btn btn-light"
+          @click="goBack"
+          >목록으로</button>&nbsp;
         <router-link :to="{name:'ReviewUpdate', params: { id : review.id }}" v-if="review?.username===username">
           <button class="btn btn-secondary">수정하기</button></router-link>&nbsp;
         <button @click="reviewDelete" v-if="review?.username===username"
@@ -87,6 +88,9 @@ export default {
     this.getUser()
   },
   methods:{
+    goBack(){
+      window.history.back()
+    },
     getReview(){
       if(!this.$store.getters.islogin){
         this.$router.push({name:'HomeView'})

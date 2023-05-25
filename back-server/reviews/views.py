@@ -31,6 +31,16 @@ def review_list(request):
         else:
             print(serializer.errors)
 
+# 회원 한명의 게시글 리스트 -------------------------------
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def single_review(request, pk):
+    reviews = Review.objects.filter(user_id=pk).order_by('-created_at')
+    print(reviews)
+    serializer = ReviewSerializer(reviews, many=True)
+    return Response(serializer.data)
+
+
 # ----------------게시글 디테일 불러오기, 식제, 수정------------------------------
 @api_view(['GET', 'DELETE', 'PUT'])
 @permission_classes([IsAuthenticated])

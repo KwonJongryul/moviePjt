@@ -16,6 +16,7 @@ export default new Vuex.Store({
     reviews : null,
     user: null,
     redirectPath: '/',
+    s_reviews : null
   },
   getters: {
     islogin(state){
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     GET_REVIEWS(state, reviews){
       state.reviews = reviews
+    },
+    GET_S_REVIEWS(state, reviews){
+      state.s_reviews = reviews
     },
     SAVE_TOKEN(state, key){
       state.token = key
@@ -169,6 +173,25 @@ export default new Vuex.Store({
           const reviews = res.data.reverse()
           if(reviews){
             context.commit('GET_REVIEWS', reviews)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getSingleRivews(context, id){
+      const URL = `http://127.0.0.1:8000/api/v1/reviews/single/${id}/`
+      axios({
+        method : 'get',
+        url : URL,
+        headers : {
+          Authorization: `Token ${ context.state.token }`
+        }
+      })
+        .then((res) => {
+          const reviews = res.data
+          if(reviews){
+            context.commit('GET_S_REVIEWS', reviews)
           }
         })
         .catch((err) => {

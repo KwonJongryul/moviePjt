@@ -11,6 +11,7 @@ import ReviewDetail from '@/views/ReviewDetail'
 import ReviewUpdate from '@/views/ReviewUpdate'
 import ProfileView from '@/views/ProfileView'
 import ProfileUpdate from '@/views/ProfileUpdate'
+import SingleReview from '@/views/SingleReview'
 import store from "@/store"
 Vue.use(VueRouter)
 
@@ -56,6 +57,11 @@ const routes = [
     component: ReviewDetail
   },
   {
+    path: '/review/:username/:id',
+    name: 'SingleReview',
+    component: SingleReview
+  },
+  {
     path: '/review/update/:id',
     name: 'ReviewUpdate',
     component: ReviewUpdate
@@ -81,7 +87,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const isLoggedIn = store.getters.islogin
-  const authPasges = ['ReviewCreate', 'ReviewDetail', 'ReviewUpdate', 'ProfileView']
+  const authPasges = ['ReviewCreate', 'ReviewDetail', 'ReviewUpdate', 'ProfileView', 'SingleReview']
   const isAuthReqired = authPasges.includes(to.name)
   if (isAuthReqired && !isLoggedIn){
     alert('로그인이 필요한 페이지입니다')

@@ -4,7 +4,8 @@
     <div align="center">
       <img :src="url + user?.user_img" alt="이미지가 없어요 😢" id="profile2">
       <h3 style="text-align: center; margin-top: 30px;">{{ user?.username }}</h3>
-      <button v-if="user?.id!=now_user?.id && false==isFollowed" @click="onFollow">팔로우 하기</button>
+      <button v-if="user?.id != now_user && false==isFollowed" @click="onFollow">팔로우 하기</button>
+
       <button v-if="isFollowed" @click="onFollow">팔로우 취소</button>
       <div class="row mt-4">
         <div class="col">
@@ -16,9 +17,9 @@
           <p>Following</p>
         </div>
       </div>
-      <div style="border: solid 1px brown; height: 50px; cursor: pointer;" class="d-flex align-items-ceter justify-content-center mt-4"
-      @click="goUpdate"
-      >
+        <div style="border: solid 1px brown; height: 50px; cursor: pointer;" class="d-flex align-items-ceter justify-content-center mt-4"
+        @click="goRivews"
+        >
         <span style="margin: auto 0;">{{ user?.username }}님이 쓴 리뷰 보러가기</span>
       </div>
       <div style="border: solid 1px brown; height: 50px; cursor: pointer;" class="d-flex align-items-ceter justify-content-center mt-4"
@@ -84,7 +85,7 @@ export default {
     return {
       user : null,
       url : URL,
-      now_user : this.$store.state.user?.id,
+      // now_user : this.$store.state.user?.id,
       genres : null,
       genreNames : [],
       changeForm : false,
@@ -94,6 +95,9 @@ export default {
     }
   },
   computed:{
+    now_user(){
+      return this.$store.state.user?.id
+    },
     isFollowed(){
       for(let i of this.user?.followers){
         if(i.id == this.now_user){
@@ -120,6 +124,9 @@ export default {
   mounted(){
   },
   methods:{
+    goRivews(){
+      this.$router.push({name:'SingleReview', params:{id:this.user.id, username:this.user.name}})
+    },
     getGenreNames(){
       const arr = []
       for(const i of this.user.like_genres){
