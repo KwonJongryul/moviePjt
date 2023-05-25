@@ -16,6 +16,7 @@
 					<input type="submit" value="등록하기">
 				</div>
 			</form>
+			<span v-else>댓글을 남기시려면 로그인 해주세요</span>
 		</div>
 		<p class="mb-4">전체 댓글 {{ comments?.length }}개</p>
 		<CommentItem 
