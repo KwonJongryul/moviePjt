@@ -62,7 +62,13 @@
 
 ### 3. 데이터베이스 모델링(ERD)
 
-![](C:\Users\yunji\AppData\Roaming\marktext\images\2023-05-26-03-48-21-ERD.drawio.png)
+
+
+![ERD.drawio.png](C:\Users\kjr58\Desktop\1학기%20pjt\ERD.drawio.png)
+
+
+
+
 
 ### 4. 영화 추천 알고리즘에 대한 기술적 설명
 
