@@ -1,6 +1,8 @@
 <template>
   <div class="carousel-item" data-bs-interval="2000">
-    <img :src="`${URL+genremovie.backdrop_path}`" class="d-block w-100">
+    <router-link :to="{ name: 'MovieDetailView', params: { id: genremovie.id}}">
+      <img :src="`${URL+genremovie.backdrop_path}`" class="d-block w-100">
+    </router-link>
     <h3 style="text-align:end;">{{ genremovie.title }}</h3>
   </div>
 

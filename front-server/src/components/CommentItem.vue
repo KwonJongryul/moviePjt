@@ -82,7 +82,7 @@ export default {
       return false
     }
   },
-  created(){
+  mounted(){
     this.get_comment()
   },
   props:{
@@ -228,7 +228,7 @@ export default {
     color: rgb(204, 25, 25);
   }
   /* 드롭다운 기본아이콘 없애는 css */
-  .dropdown-toggle::after {
+  .comment .dropdown-toggle::after {
     display: none !important;
   }
   .dropdown-item{

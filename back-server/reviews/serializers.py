@@ -19,7 +19,13 @@ class ReviewSerializer(serializers.ModelSerializer):
         
 class UserSerializer(serializers.ModelSerializer):
     user_img = serializers.ImageField(required=False)
-    # like_genres = serializers.PrimaryKeyRelatedField(many=True, queryset=Genre.objects.all())
+    followers = serializers.SerializerMethodField()
+    
+    def get_followers(self, instance):
+        followers = instance.followers.all()
+        serializer = UserSerializer(followers, many=True)
+        return serializer.data
+    
     class Meta :
         model = get_user_model()
         fields = '__all__'

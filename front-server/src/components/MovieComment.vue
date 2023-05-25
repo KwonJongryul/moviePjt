@@ -37,9 +37,18 @@ export default {
 			// comments : this.movie.comments,
 			changeForm : false,
 			inputComment : null,
-			URL : URL
+			URL : URL,
+			// comments : this.movie.comments
 		}
 	},
+	// watch: {
+  //   'movie': {
+  //     deep: true,
+  //     handler() {
+  //       this.comments = this.movie.comments
+  //     }
+  //   }
+  // },
 	components:{
 		CommentItem
 	},
@@ -51,7 +60,7 @@ export default {
 			return this.$store.getters.islogin
 		},
 		comments(){
-			return this.movie.comments
+			return this.movie?.comments || []
 		},
 		user(){
 			return this.$store.state.user
@@ -80,6 +89,7 @@ export default {
 			.then(() =>  {
 				this.inputComment = ''
 				this.changeForm = false
+				this.$emit('comment')
 				alert('등록되었습니다')
 				location.reload()
 			})

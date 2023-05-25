@@ -8,4 +8,5 @@ urlpatterns = [
     path('getid/', views.get_id),
     path('getuser/<int:pk>/', views.get_user),
     path('upload/', views.upload_img),    
+    path('<int:user_pk>/follow/', views.follow),
 ]

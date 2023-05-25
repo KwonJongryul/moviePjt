@@ -108,3 +108,16 @@ def upload_img(request):
         return file_path  # 파일의 경로 반환
     else:
         return None
+    
+# 팔로우--------------------
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def follow(request, user_pk):
+    User = get_user_model()
+    person = User.objects.get(pk=user_pk)
+    if person != request.user:
+        if person.followers.filter(pk=request.user.pk).exists():
+            person.followers.remove(request.user)
+        else:
+            person.followers.add(request.user)
+    return Response(status=status.HTTP_202_ACCEPTED)

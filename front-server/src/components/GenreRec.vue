@@ -1,9 +1,11 @@
 <template>
-  <!-- 장르별 추천영화 -->
+  <!-- 최신 추천영화 -->
   <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active" data-bs-interval="2000">
+        <router-link :to="{ name: 'MovieDetailView', params: { id: genremovies[0].id}}">
         <img :src="`${URL+genremovies[0].backdrop_path}`" class="d-block w-100">
+        </router-link>
         <h3 style="text-align:end;">{{ genremovies[0].title }}</h3>
       </div>
       <GenreItem v-for="movie in movies" :key="movie.id" :genremovie="movie"/>

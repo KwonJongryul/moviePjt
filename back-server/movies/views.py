@@ -1,3 +1,4 @@
+from random import sample
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
@@ -42,6 +43,15 @@ def movie_detail(request, movie_id):
 @api_view(['GET'])
 def movies_option(request, keyword):
     movies = Movie.objects.filter(title__contains=keyword)[:10]
+    serializer = MoviesSerializer(movies, many=True)
+    return Response(serializer.data)
+
+# 장르별 데이터
+@api_view(['GET'])
+def movies_genre(request, genre):
+    movies = Movie.objects.filter(genre__name__icontains=genre).order_by('-release_date')
+    movies = movies[:100]
+    movies = sample(list(movies), 10)
     serializer = MoviesSerializer(movies, many=True)
     return Response(serializer.data)
 

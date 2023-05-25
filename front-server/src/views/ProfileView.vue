@@ -1,18 +1,25 @@
 <template>
 <div style="width: 1200px;" class="d-flex row mt-5">
   <div class="col-4 d-flex justify-content-center divBox">
-    <div>
+    <div align="center">
       <img :src="url + user?.user_img" alt="이미지가 없어요 😢" id="profile2">
       <h3 style="text-align: center; margin-top: 30px;">{{ user?.username }}</h3>
+      <button v-if="user?.id!=now_user?.id && false==isFollowed" @click="onFollow">팔로우 하기</button>
+      <button v-if="isFollowed" @click="onFollow">팔로우 취소</button>
       <div class="row mt-4">
         <div class="col">
-          <p>0</p>
+          <p>{{ user?.followers.length }}</p>
           <p>Followers</p>
         </div>
         <div class="col">
-          <p>0</p>
+          <p>{{ user?.followings.length }}</p>
           <p>Following</p>
         </div>
+      </div>
+      <div style="border: solid 1px brown; height: 50px; cursor: pointer;" class="d-flex align-items-ceter justify-content-center mt-4"
+      @click="goUpdate"
+      >
+        <span style="margin: auto 0;">{{ user?.username }}님이 쓴 리뷰 보러가기</span>
       </div>
       <div style="border: solid 1px brown; height: 50px; cursor: pointer;" class="d-flex align-items-ceter justify-content-center mt-4"
       v-if="user?.id==now_user"
@@ -82,15 +89,34 @@ export default {
       genreNames : [],
       changeForm : false,
       new_password1 : null,
-      new_password2 : null
+      new_password2 : null,
+      user_id : this.$route.params.id
     }
   },
   computed:{
+    isFollowed(){
+      for(let i of this.user?.followers){
+        if(i.id == this.now_user){
+          return true
+        }
+      }
+      return false
+    }
   },
   created(){
     this.getGenres()
     this.getUser()
   },
+  watch: {
+    '$route': {
+      immediate: true,
+      handler(to) {
+        this.user_id = to.params.id;
+        this.getUser();
+      }
+    }
+  },
+
   mounted(){
   },
   methods:{
@@ -108,7 +134,7 @@ export default {
     getUser(){
       axios({
         method:'post',
-        url: `${URL}/api/v1/getuser/${this.$route.params.id}/`,
+        url: `${URL}/api/v1/getuser/${this.user_id}/`,
         headers:{
           Authorization : `Token ${this.$store.state.token}`
         }
@@ -134,7 +160,7 @@ export default {
       })
     },
     goUpdate(){
-      this.$router.push({name:'ProfileUpdate', params:{id:this.$route.params.id}})
+      this.$router.push({name:'ProfileUpdate', params:{id:this.user_id}})
     },
     changeForms(){
       this.changeForm = !this.changeForm
@@ -160,7 +186,26 @@ export default {
         console.log(err)
       })
     },
-  }
+    onFollow(){
+      axios({
+        method:'patch',
+        url: `${URL}/api/v1/${this.user_id}/follow/`,
+        headers:{
+          Authorization : `Token ${this.$store.state.token}`
+        }
+      })
+      .then(() => {
+        this.getUser()
+        // console.log(this.isFollowed)
+        // console.log(this.user)
+        // console.log(this.now_user)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    }
+  
 }
 </script>
 

@@ -1,23 +1,22 @@
 <template>
   <div>
-    
+    <!-- 임시 로직 이름 바꾸기 힘들어서 그냥 이걸로 -->
   <div style="display:flex; align-items:center;">
     <div class="dropdown">
       <p style="font-size:40px; color:white; border:none;" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-        {{ era }}
+				장르 {{ genre }}
       </p>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" @click="selectEra('2020')">2020</a></li>
-        <li><a class="dropdown-item" @click="selectEra('2010')">2010</a></li>
-        <li><a class="dropdown-item" @click="selectEra('2000')">2000</a></li>
-        <li><a class="dropdown-item" @click="selectEra('1990')">1990</a></li>
-        <li><a class="dropdown-item" @click="selectEra('1980')">1980</a></li>
-        <li><a class="dropdown-item" @click="selectEra('1980 이전')">1980 이전</a></li>
+        <li><a class="dropdown-item"
+				@click="selectGenre(genre.name)"
+				v-for="genre in genres"
+				:key="genre.id"
+				>{{ genre.name }}</a></li>
       </ul>
     </div>
-    <h1>년대 인기작</h1>
+    <h1>의 추천작!</h1>
     <button class="btn btn-danger m-3" type="button"
-    @click="getMovieEra()">
+    @click="getMovies()">
     RESET</button>
   </div>
   
@@ -41,27 +40,42 @@ import axios from 'axios';
 // 이거 npm install Swiper해야해요
 import Swiper from 'swiper';
 import 'swiper/swiper-bundle.css';
-
+const URL = 'http://127.0.0.1:8000'
 export default {
   name: 'EraMovie',
   data() {
     return {
       movies: null,
-      era: '2020',
+      genres : null,
+			genre : '모험'
     };
   },
   created() {
-    this.getMovieEra();
+		this.getGenre()
+    this.getMovies();
   },
   methods: {
-    getMovieEra() {
-      axios({
-        method: 'get',
-        url: `http://127.0.0.1:8000/api/v1/movies/era/${this.era}/`,
+		// 장르받아오기---------------------
+		getGenre(){
+			axios({
+				method: 'get',
+				url : `${URL}/api/v1/genres/`
+			})
+			.then((res) =>{
+				this.genres = res.data.filter(el => el.id!='9999')
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
+    getMovies() {
+			axios({
+				method: 'get',
+        url: `${URL}/api/v1/movies/genre/${this.genre}/`,
       })
-        .then((res) => {
-          this.movies = res.data;
-          this.initSwiper();
+			.then((res) => {
+				this.movies = res.data;
+				this.initSwiper();
         })
         .catch((err) => {
           console.log(err);
@@ -78,9 +92,9 @@ export default {
         },
       });
     },
-    selectEra(selectedEra){
-      this.era = selectedEra
-      this.getMovieEra()
+    selectGenre(selectGenre){
+      this.genre = selectGenre
+      this.getMovies()
     }
   },
 };

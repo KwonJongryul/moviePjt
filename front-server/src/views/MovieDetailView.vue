@@ -90,7 +90,7 @@
       </div>
     </div>
     <hr style="border:3px solid white;">
-    <MovieComment @getComment="getMovieDetail" :movie="movie"/>
+    <MovieComment @comment="getMovieDetail" :movie="movie"/>
   </div>
 
   <footer style="height: 300px;"></footer>
