@@ -69,7 +69,7 @@ export default{
       // if (this.$route.path === '/searchlist') {
       // return; // 중복된 네비게이션을 피하기 위해 네비게이션을 수행하지 않음
       // }
-      this.$router.push({ name: 'SearchView', params: { search: this.search_movie } });
+      this.$router.push({ name: 'SearchView', params: { word: this.search_movie } });
       this.search_movie = null
     },
     updateUser() {
