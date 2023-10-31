@@ -75,7 +75,8 @@
 
 
 
-![ERD.drawio.png](C:\Users\kjr58\Desktop\1학기%20pjt\ERD.drawio.png)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/ed934a3c-a2ce-45f3-a23a-878d357c7e39)
+
 
 
 
