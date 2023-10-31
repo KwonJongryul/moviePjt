@@ -58,7 +58,18 @@
 
 13. 팔로우, 팔로잉
 
-정도 입니다.
+# 구현 상세사진
+
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/b4a851f0-2ac5-4fe6-8e54-8ca0ccb7cd9d)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/acf122fd-f757-4e1f-b2af-265a3914aa49)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/29e0ec94-9311-48ed-bf5c-663ae6cfa4da)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/b5fce85e-af45-4246-88cd-4f63d919f95c)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/c65a308a-9eb4-4c96-b73e-e93327bcffbd)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/c3995145-da4d-4934-883a-2eaf273faddc)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/47464756-786f-4aa2-96ef-6d1247d5fe57)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/65e5de87-13f4-4b83-acc3-dadb73161d3d)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/a15179bf-114e-45ea-b426-90cba515e9b7)
+
 
 ### 3. 데이터베이스 모델링(ERD)
 
