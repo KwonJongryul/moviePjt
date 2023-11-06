@@ -56,7 +56,8 @@
 ![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/b5fce85e-af45-4246-88cd-4f63d919f95c)
 ![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/197a9e6f-53d2-47ce-9930-4374d66f5969)
 ![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/5e270cf9-0ff3-41e2-ad25-94d4bb384536)
-![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/ef448254-529b-4957-921b-d16118daf917)
+![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/32779fa0-1555-4ece-a0c9-69cf7b38c1d0)
+
 ![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/c65a308a-9eb4-4c96-b73e-e93327bcffbd)
 ![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/c3995145-da4d-4934-883a-2eaf273faddc)
 ![image](https://github.com/KwonJongryul/moviePjt/assets/122791001/47464756-786f-4aa2-96ef-6d1247d5fe57)
